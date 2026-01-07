@@ -2,22 +2,22 @@
   "hooks": {
     "PostToolUse": [
       {
-        "matcher": "Bash",
-        "command": ".claude/hooks/auto-doc-sync.sh Bash \"$TOOL_INPUT\" \"$TOOL_OUTPUT\" \"$EXIT_CODE\""
+        "matcher": {"tools": ["Bash"]},
+        "hooks": [{"type": "command", "command": ".claude/hooks/auto-doc-sync.sh Bash \"$TOOL_INPUT\" \"$TOOL_OUTPUT\" \"$EXIT_CODE\""}]
       },
       {
-        "matcher": "Write",
-        "command": ".claude/hooks/auto-doc-sync.sh Write \"$TOOL_INPUT\" \"\" \"0\""
+        "matcher": {"tools": ["Write"]},
+        "hooks": [{"type": "command", "command": ".claude/hooks/auto-doc-sync.sh Write \"$TOOL_INPUT\" \"\" \"0\""}]
       },
       {
-        "matcher": "Edit",
-        "command": ".claude/hooks/auto-doc-sync.sh Edit \"$TOOL_INPUT\" \"\" \"0\""
+        "matcher": {"tools": ["Edit"]},
+        "hooks": [{"type": "command", "command": ".claude/hooks/auto-doc-sync.sh Edit \"$TOOL_INPUT\" \"\" \"0\""}]
       }
     ],
     "PreToolUse": [
       {
-        "matcher": "Bash",
-        "command": ".claude/hooks/pre-tool-use-safety.sh \"$TOOL_INPUT\""
+        "matcher": {"tools": ["Bash"]},
+        "hooks": [{"type": "command", "command": ".claude/hooks/pre-tool-use-safety.sh \"$TOOL_INPUT\""}]
       }
     ]
   },
