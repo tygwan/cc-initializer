@@ -1,110 +1,164 @@
-# {Project Name}
+# cc-initializer
 
-> **Type**: {Web App | API | CLI | Library | Plugin}
-> **Stack**: {Language} + {Framework}
-> **Docs**: [docs/_INDEX.md](docs/_INDEX.md)
+> **Type**: Claude Code Configuration Framework
+> **Stack**: Markdown + Shell + JSON
+> **Docs**: [.claude/docs/](.claude/docs/)
+
+## Overview
+
+cc-initializer는 Claude Code를 위한 통합 개발 워크플로우 프레임워크입니다.
+Agents, Skills, Hooks, Commands를 유기적으로 연결하여 효율적인 개발 환경을 제공합니다.
 
 ## Quick Start
 
 ```bash
-# Install
-{install_command}
+# 프로젝트 초기화
+/init --full
 
-# Run
-{run_command}
+# 설정 검증
+/validate --full
 
-# Test
-{test_command}
+# 기능 개발 시작
+/feature start "기능명"
 ```
 
-## Project Structure
+## Component Structure
 
 ```
-{project}/
-├── src/              # Source code
-│   ├── components/   # UI components (if applicable)
-│   ├── services/     # Business logic
-│   ├── models/       # Data models
-│   └── utils/        # Utilities
-├── tests/            # Test files
-├── docs/             # Documentation
-│   └── _INDEX.md     # Doc navigation
-└── config/           # Configuration
+.claude/
+├── settings.json          # 통합 설정
+├── agents/                # 20 specialized agents
+│   ├── progress-tracker.md
+│   ├── phase-tracker.md
+│   ├── dev-docs-writer.md
+│   └── ...
+├── skills/                # 12 skills
+│   ├── init/
+│   ├── validate/
+│   ├── sprint/
+│   └── ...
+├── commands/              # 6 workflow commands
+│   ├── feature.md
+│   ├── bugfix.md
+│   ├── release.md
+│   └── ...
+├── hooks/                 # 5 automation hooks
+│   ├── phase-progress.sh
+│   ├── pre-tool-use-safety.sh
+│   └── ...
+└── docs/                  # Framework documentation
+    ├── DOCUMENT-STRUCTURE.md
+    └── SPRINT-PHASE-INTEGRATION.md
 ```
 
-## Key Files
+## Key Components
 
-| Purpose | File | Description |
-|---------|------|-------------|
-| Entry | `src/index.{ext}` | Application entry point |
-| Config | `{config_file}` | Main configuration |
-| Types | `src/types/` | Type definitions |
+| Category | Count | Purpose |
+|----------|-------|---------|
+| Agents | 20 | 전문화된 작업 수행 |
+| Skills | 12 | 워크플로우 자동화 |
+| Commands | 6 | 통합 개발 플로우 |
+| Hooks | 5 | 자동 트리거 작업 |
 
-## Commands
+## Core Workflows
 
-| Task | Command |
-|------|---------|
-| Dev | `{dev_command}` |
-| Build | `{build_command}` |
-| Test | `{test_command}` |
-| Lint | `{lint_command}` |
+### 1. Phase 기반 개발
 
-## Development Status
-
-| Phase | Task | Status |
-|-------|------|--------|
-| 1 | {Task 1} | 📋 Planned |
-| 2 | {Task 2} | 📋 Planned |
-| 3 | {Task 3} | 📋 Planned |
-
-**Details**: [docs/progress/status.md](docs/progress/status.md)
-
----
-
-## Critical Patterns
-
-### {Pattern 1 Name}
-```{language}
-// ✅ DO: {correct approach}
-{correct_code}
-
-// ❌ DON'T: {incorrect approach}
-{incorrect_code}
+```
+/init --full → dev-docs-writer → doc-splitter (HIGH complexity)
+                     ↓
+              phase-tracker → progress-tracker
 ```
 
-### {Pattern 2 Name}
-```{language}
-// Important: {explanation}
-{code_example}
+### 2. Sprint 실행
+
+```
+/sprint start --phase N → Task 선택 → /sprint complete → Phase 업데이트
 ```
 
----
+### 3. 기능 개발
+
+```
+/feature start → 개발 → /feature progress → /feature complete
+```
+
+## Document Locations
+
+| Document | Location | Purpose |
+|----------|----------|---------|
+| Progress | `docs/PROGRESS.md` | 통합 진행 현황 |
+| Context | `docs/CONTEXT.md` | AI 컨텍스트 |
+| Phases | `docs/phases/` | Phase 기반 개발 |
+| Sprints | `docs/sprints/` | Sprint 실행 |
+
+**상세**: [.claude/docs/DOCUMENT-STRUCTURE.md](.claude/docs/DOCUMENT-STRUCTURE.md)
 
 ## Quick Reference
 
-### Skills
+### Primary Skills
+
 | Skill | Usage |
 |-------|-------|
-| `/init` | Initialize/analyze project |
-| `/review` | Code review |
-| `/test` | Testing workflow |
-| `/doc` | Generate documentation |
-| `/commit` | Conventional commit |
-| `/refactor` | Code improvement |
+| `/init` | 프로젝트 초기화/분석 |
+| `/validate` | 설정 검증 |
+| `/phase` | Phase 관리 |
+| `/sprint` | Sprint 관리 |
+| `/agile-sync` | 문서 동기화 |
 
-### Agents
+### Workflow Commands
+
+| Command | Usage |
+|---------|-------|
+| `/feature` | 기능 개발 워크플로우 |
+| `/bugfix` | 버그 수정 워크플로우 |
+| `/release` | 릴리스 워크플로우 |
+
+### Key Agents
+
 | Agent | Purpose |
 |-------|---------|
-| `project-analyzer` | Analyze structure |
-| `code-reviewer` | Review code |
-| `doc-generator` | Create docs |
-| `test-helper` | Write tests |
-| `refactor-assistant` | Improve code |
+| `progress-tracker` | 전체 진행률 관리 |
+| `phase-tracker` | Phase별 상세 추적 |
+| `dev-docs-writer` | 개발 문서 생성 |
+| `commit-helper` | 커밋 메시지 작성 |
+| `config-validator` | 설정 검증 |
 
----
+## Integration Map
+
+```
+┌──────────────────────────────────────────────────────────────┐
+│                    cc-initializer                             │
+├──────────────────────────────────────────────────────────────┤
+│                                                               │
+│  [Skills]              [Agents]              [Hooks]          │
+│  /init ──────────────► dev-docs-writer                        │
+│  /validate ──────────► config-validator                       │
+│  /phase ─────────────► phase-tracker ◄───── phase-progress.sh │
+│  /sprint ────────────► progress-tracker                       │
+│  /agile-sync ────────► doc-generator                          │
+│                                                               │
+│  [Commands]            [Integration]                          │
+│  /feature ───────────► Git + Phase + Sprint + Quality Gate   │
+│  /bugfix ────────────► Git + Sprint + Analyzer               │
+│  /release ───────────► Quality Gate + Sprint + Phase         │
+│                                                               │
+└──────────────────────────────────────────────────────────────┘
+```
+
+## Configuration
+
+핵심 설정: `.claude/settings.json`
+
+```json
+{
+  "phase": { "enabled": true },
+  "sprint": { "enabled": true, "phase_integration": { "enabled": true } },
+  "validation": { "auto_check_on_start": false }
+}
+```
 
 ## Links
 
-- [Documentation Index](docs/_INDEX.md)
-- [Progress Status](docs/progress/status.md)
-- [Contributing](CONTRIBUTING.md)
+- [Document Structure](.claude/docs/DOCUMENT-STRUCTURE.md)
+- [Sprint-Phase Integration](.claude/docs/SPRINT-PHASE-INTEGRATION.md)
+- [Settings](.claude/settings.json)
