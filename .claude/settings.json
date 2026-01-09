@@ -129,6 +129,7 @@
   },
   "documents": {
     "standard_locations": {
+      "discovery": "docs/DISCOVERY.md",
       "progress": "docs/PROGRESS.md",
       "context": "docs/CONTEXT.md",
       "prd": "docs/PRD.md",
@@ -137,6 +138,17 @@
       "adr": "docs/adr/",
       "feedback": "docs/feedback/",
       "sprints": "docs/sprints/"
+    }
+  },
+  "discovery": {
+    "enabled": true,
+    "require_before_docs": true,
+    "conversation_style": "friendly",
+    "auto_confirm": false,
+    "complexity_thresholds": {
+      "LOW": 3,
+      "MEDIUM": 6,
+      "HIGH": 10
     }
   },
   "safety": {
@@ -148,7 +160,7 @@
     "auto_check_on_start": false,
     "strict_mode": false,
     "ignore_patterns": ["*.backup", "*.tmp"],
-    "required_agents": ["progress-tracker", "phase-tracker", "dev-docs-writer"],
+    "required_agents": ["project-discovery", "progress-tracker", "phase-tracker", "dev-docs-writer"],
     "required_hooks": ["phase-progress.sh", "pre-tool-use-safety.sh"],
     "required_skills": ["init", "validate", "sprint", "agile-sync"]
   },
