@@ -5,7 +5,13 @@
 
 ---
 
-## 🚀 What's New in v2.0
+## 🚀 What's New in v2.1
+
+### Phase-Based Development (NEW!)
+- **Phase Folders** - Organized `docs/phases/phase-N/` structure
+- **Phase Tracking** - Automated progress calculation and status updates
+- **Phase Documents** - SPEC.md, TASKS.md, CHECKLIST.md per phase
+- **Phase Commands** - `/phase status`, `/phase complete N`
 
 ### Agile Development Automation
 - **Sprint Management** - Complete sprint lifecycle with velocity tracking
@@ -36,6 +42,7 @@ Copy-Item -Recurse "cc-initializer/.claude" "your-project/.claude"
 cd your-project
 /init              # Analyze project and create CLAUDE.md
 /agile-sync        # Initialize agile tracking
+/phase status      # Check current phase progress
 ```
 
 ---
@@ -64,6 +71,12 @@ cd your-project
 ### Quick Commands
 
 ```bash
+# Phase Management (NEW!)
+/phase status            # Check current phase progress
+/phase 2 tasks           # View phase 2 task list
+/phase complete 1        # Mark phase 1 as complete
+/phase start 2           # Start next phase
+
 # Sprint Management
 /sprint start --name "Sprint 1" --duration 2w
 /sprint status
@@ -91,28 +104,39 @@ cd your-project
 ```
 cc-initializer/
 ├── .claude/
-│   ├── agents/              # 16 Sub-agents
-│   ├── skills/              # 18 Skills (6 NEW!)
+│   ├── agents/              # 17 Sub-agents
+│   │   ├── phase-tracker.md # ⭐ NEW: Phase progress tracking
+│   │   └── ...
+│   ├── skills/              # 19 Skills
 │   │   ├── init.md
 │   │   ├── review.md
-│   │   ├── agile-sync/      # ⭐ NEW: Agile synchronization
-│   │   ├── readme-sync/     # ⭐ NEW: README auto-update
-│   │   ├── sprint/          # ⭐ NEW: Sprint management
-│   │   ├── feedback-loop/   # ⭐ NEW: Learning & ADR
-│   │   ├── quality-gate/    # ⭐ NEW: Quality validation
+│   │   ├── phase-development.md  # ⭐ NEW: Phase workflow
+│   │   ├── agile-sync/      # Agile synchronization
+│   │   ├── readme-sync/     # README auto-update
+│   │   ├── sprint/          # Sprint management
+│   │   ├── feedback-loop/   # Learning & ADR
+│   │   ├── quality-gate/    # Quality validation
 │   │   └── ...
-│   ├── commands/            # 2 Commands
-│   └── hooks/               # 4 Hooks (1 NEW!)
-│       ├── auto-doc-sync.sh # ⭐ NEW: Auto documentation
+│   ├── commands/            # 3 Commands
+│   │   ├── phase.md         # ⭐ NEW: Phase management
+│   │   └── ...
+│   └── hooks/               # 5 Hooks
+│       ├── phase-progress.md # ⭐ NEW: Auto phase updates
+│       ├── auto-doc-sync.sh  # Auto documentation
 │       └── ...
 ├── docs/
+│   └── templates/
+│       └── phase/           # ⭐ NEW: Phase templates
+│           ├── SPEC.md
+│           ├── TASKS.md
+│           └── CHECKLIST.md
 ├── CLAUDE.md
 └── README.md
 ```
 
 ---
 
-## 🤖 Sub-Agents (16)
+## 🤖 Sub-Agents (17)
 
 ### Development & Analysis
 
@@ -134,6 +158,7 @@ cc-initializer/
 | `prd-writer` | Write PRD documents | "PRD", "requirements" |
 | `tech-spec-writer` | Write technical specs | "tech spec", "design" |
 | `progress-tracker` | Track progress | "progress", "status" |
+| `phase-tracker` | ⭐ Track phase progress | "phase", "진행", "단계" |
 
 ### Git & Version Control
 
@@ -147,7 +172,7 @@ cc-initializer/
 
 ---
 
-## 🛠 Skills (18)
+## 🛠 Skills (19)
 
 ### Core Workflows
 
@@ -160,10 +185,11 @@ cc-initializer/
 | `/refactor` | `/refactor [target]` | Refactoring workflow |
 | `/commit` | `/commit [--type]` | Conventional commits |
 
-### ⭐ Agile Automation (NEW!)
+### ⭐ Phase & Agile Automation
 
 | Skill | Usage | Description |
 |-------|-------|-------------|
+| `phase-development` | Auto-activated | ⭐ Phase-based development workflow |
 | `/agile-sync` | `/agile-sync [--full]` | Sync all agile artifacts |
 | `/readme-sync` | `/readme-sync [--validate]` | Auto-update README |
 | `/sprint` | `/sprint <cmd>` | Sprint lifecycle management |
@@ -184,18 +210,25 @@ cc-initializer/
 
 ---
 
-## 🔗 Hooks (4)
+## 🔗 Hooks (5)
 
 | Hook | Event | Purpose |
 |------|-------|---------|
-| `auto-doc-sync` | PostToolUse | ⭐ Auto-update CHANGELOG & README |
+| `phase-progress` | PostToolUse | ⭐ Auto-update phase progress |
+| `auto-doc-sync` | PostToolUse | Auto-update CHANGELOG & README |
 | `pre-tool-use-safety` | PreToolUse | Block dangerous operations |
 | `post-tool-use-tracker` | PostToolUse | Track changes |
 | `notification-handler` | Notification | Handle notifications |
 
 ---
 
-## 📋 Commands (2)
+## 📋 Commands (3)
+
+### phase (NEW!)
+- Phase status checking and management
+- Task completion tracking
+- Phase transition workflow
+- Progress calculation automation
 
 ### git-workflow
 - `COMMIT-CONVENTION.md` - Conventional commit rules
@@ -210,6 +243,42 @@ cc-initializer/
 ---
 
 ## 💡 Usage Examples
+
+### Phase-Based Development Workflow (NEW!)
+
+```bash
+# 1. Setup Phase Structure
+mkdir -p docs/phases/phase-1 docs/phases/phase-2
+# Copy templates from cc-initializer/docs/templates/phase/
+
+# 2. Check Current Phase Status
+/phase status                    # View all phases progress
+/phase 1 tasks                   # View Phase 1 tasks
+
+# 3. During Development
+# Task 완료 시 TASKS.md 업데이트 → hook이 자동으로 PROGRESS.md 갱신
+
+# 4. Complete Phase
+/phase complete 1               # Mark Phase 1 complete
+/phase start 2                  # Start Phase 2
+
+# 5. Track Progress
+/phase summary                  # View overall progress
+```
+
+### Phase Document Structure
+
+```
+docs/phases/
+├── phase-1/
+│   ├── SPEC.md        # Technical specification
+│   ├── TASKS.md       # Task list with status (⬜/🔄/✅)
+│   └── CHECKLIST.md   # Completion criteria
+├── phase-2/
+│   └── ...
+└── phase-N/
+    └── ...
+```
 
 ### Complete Sprint Workflow
 
@@ -286,16 +355,23 @@ git tag v1.0.0
 
 | Category | Count |
 |----------|:-----:|
-| Agents | 16 |
-| Skills | 18 |
-| Commands | 2 |
-| Hooks | 4 |
-| Templates | 10+ |
-| **Total** | **50+** |
+| Agents | 17 |
+| Skills | 19 |
+| Commands | 3 |
+| Hooks | 5 |
+| Templates | 13+ |
+| **Total** | **57+** |
 
 ---
 
 ## 🎯 Best Practices
+
+### Phase Development (NEW!)
+1. ✅ Create phase folders with SPEC, TASKS, CHECKLIST
+2. ✅ Update TASKS.md immediately when completing work
+3. ✅ Use `/phase status` to check progress
+4. ✅ Complete all CHECKLIST items before phase transition
+5. ✅ Load only current phase docs for token efficiency
 
 ### Agile Workflow
 1. ✅ Start with `/sprint start` for new development cycles
@@ -338,6 +414,16 @@ cp -r cc-initializer/.claude your-project/.claude
 ---
 
 ## 📜 Changelog
+
+### v2.1.0 (2025-01-09)
+#### Added
+- Phase-based development system
+  - `phase-tracker` agent for progress tracking
+  - `phase` command for phase management
+  - `phase-progress` hook for auto-updates
+  - `phase-development` skill for workflow guidance
+- Phase templates: SPEC.md, TASKS.md, CHECKLIST.md
+- Token-optimized context loading strategy
 
 ### v2.0.0 (2025-01-07)
 #### Added
