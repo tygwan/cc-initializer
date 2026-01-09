@@ -1,446 +1,551 @@
-# Claude Code Project Initializer
+# cc-initializer
 
-> Universal project starter kit for Claude Code with **Agile Development Automation**.
-> Pre-configured agents, skills, hooks, commands, and complete sprint lifecycle management.
-
----
-
-## 🚀 What's New in v2.1
-
-### Phase-Based Development (NEW!)
-- **Phase Folders** - Organized `docs/phases/phase-N/` structure
-- **Phase Tracking** - Automated progress calculation and status updates
-- **Phase Documents** - SPEC.md, TASKS.md, CHECKLIST.md per phase
-- **Phase Commands** - `/phase status`, `/phase complete N`
-
-### Agile Development Automation
-- **Sprint Management** - Complete sprint lifecycle with velocity tracking
-- **Auto-Documentation** - Automatic CHANGELOG and README synchronization
-- **Quality Gates** - Pre-commit, pre-merge, pre-release validation
-- **Feedback Loop** - Learning capture, ADR management, retrospectives
+> **Claude Code를 위한 통합 개발 워크플로우 프레임워크**
+>
+> Agents, Skills, Hooks, Commands가 유기적으로 연결된 자동화된 개발 환경
 
 ---
 
-## Quick Start
+## 🎯 What is cc-initializer?
 
-### Installation
+cc-initializer는 Claude Code의 기능을 확장하여 **체계적인 개발 워크플로우**를 제공합니다.
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│                     cc-initializer 핵심 가치                         │
+├─────────────────────────────────────────────────────────────────────┤
+│                                                                     │
+│   📋 Phase 기반 개발    →  복잡한 프로젝트를 단계별로 관리           │
+│   🔄 Sprint 추적        →  애자일 방식의 반복 개발 지원              │
+│   🤖 자동화 Hook        →  문서, 진행률, 변경사항 자동 업데이트       │
+│   🛡️ 품질 게이트        →  커밋, 머지, 릴리스 전 자동 검증           │
+│   🔧 에러 복구          →  실패 시 자동 복구 및 안내                 │
+│                                                                     │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 🚀 Quick Start
 
 ```bash
-# Clone the repository
-git clone https://github.com/tygwan/cc-initializer.git
-
-# Copy to your project
+# 1. 프로젝트에 cc-initializer 복사
 cp -r cc-initializer/.claude your-project/.claude
 
-# Or Windows PowerShell
-Copy-Item -Recurse "cc-initializer/.claude" "your-project/.claude"
-```
-
-### First Use
-
-```bash
+# 2. 프로젝트 초기화
 cd your-project
-/init              # Analyze project and create CLAUDE.md
-/agile-sync        # Initialize agile tracking
-/phase status      # Check current phase progress
+/init --full
+
+# 3. 설정 검증
+/validate --full
+
+# 4. 개발 시작!
+/feature start "첫 번째 기능"
 ```
 
 ---
 
-## 📊 Agile Development Workflow
+## 📊 전체 워크플로우 시뮬레이션
+
+### 시나리오: 새 프로젝트 "TaskManager" 개발
+
+아래는 실제 프로젝트 개발 시 cc-initializer가 어떻게 동작하는지 보여줍니다.
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                    AGILE AUTOMATION PIPELINE                    │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                 │
-│  Sprint Start    Development      Sprint End     Release        │
-│       ↓              ↓                ↓            ↓           │
-│  ┌─────────┐    ┌─────────┐      ┌─────────┐  ┌─────────┐     │
-│  │/sprint  │ →  │ Code    │  →   │/sprint  │→ │/quality │     │
-│  │ start   │    │ + Sync  │      │  end    │  │  -gate  │     │
-│  └─────────┘    └─────────┘      └─────────┘  └─────────┘     │
-│       ↓              ↓                ↓            ↓           │
-│  Planning       Auto-Docs         Velocity      Release        │
-│  Backlog        CHANGELOG         Retro         Validation     │
-│                 README            Learnings                     │
-│                                                                 │
-└─────────────────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                        COMPLETE WORKFLOW SIMULATION                          │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│  STEP 1: 프로젝트 초기화                                                     │
+│  ─────────────────────────────────────────────────────────────────────      │
+│                                                                             │
+│    User: /init --full                                                       │
+│                                                                             │
+│    ┌──────────────┐     ┌──────────────┐     ┌──────────────┐              │
+│    │ /init skill  │────▶│ dev-docs-    │────▶│ doc-splitter │              │
+│    │              │     │ writer agent │     │ (if HIGH)    │              │
+│    └──────────────┘     └──────────────┘     └──────────────┘              │
+│           │                    │                    │                       │
+│           ▼                    ▼                    ▼                       │
+│    ┌──────────────┐     ┌──────────────┐     ┌──────────────┐              │
+│    │ CLAUDE.md    │     │ docs/        │     │ docs/phases/ │              │
+│    │ 생성         │     │ PRD.md       │     │ phase-1/     │              │
+│    └──────────────┘     │ TECH-SPEC.md │     │ phase-2/     │              │
+│                         │ PROGRESS.md  │     │ phase-3/     │              │
+│                         │ CONTEXT.md   │     └──────────────┘              │
+│                         └──────────────┘                                    │
+│                                                                             │
+│  ─────────────────────────────────────────────────────────────────────      │
+│  STEP 2: 기능 개발 시작                                                      │
+│  ─────────────────────────────────────────────────────────────────────      │
+│                                                                             │
+│    User: /feature start "사용자 인증"                                        │
+│                                                                             │
+│    ┌──────────────┐     ┌──────────────┐     ┌──────────────┐              │
+│    │ /feature     │────▶│ branch-      │────▶│ phase-       │              │
+│    │ command      │     │ manager      │     │ tracker      │              │
+│    └──────────────┘     └──────────────┘     └──────────────┘              │
+│           │                    │                    │                       │
+│           ▼                    ▼                    ▼                       │
+│    Git branch:           TASKS.md에            PROGRESS.md                  │
+│    feature/user-auth     Task 추가             업데이트                      │
+│                                                                             │
+│  ─────────────────────────────────────────────────────────────────────      │
+│  STEP 3: 개발 중 (자동화)                                                    │
+│  ─────────────────────────────────────────────────────────────────────      │
+│                                                                             │
+│    User: 코드 작성 → 파일 저장                                               │
+│                                                                             │
+│    ┌──────────────────────────────────────────────────────────────┐        │
+│    │                    PostToolUse Hooks                          │        │
+│    │  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐        │        │
+│    │  │ auto-doc-    │  │ phase-       │  │ post-tool-   │        │        │
+│    │  │ sync.sh      │  │ progress.sh  │  │ tracker.sh   │        │        │
+│    │  └──────────────┘  └──────────────┘  └──────────────┘        │        │
+│    │         │                 │                 │                 │        │
+│    │         ▼                 ▼                 ▼                 │        │
+│    │   CHANGELOG.md      PROGRESS.md       변경 기록               │        │
+│    │   자동 업데이트     진행률 계산        로깅                   │        │
+│    └──────────────────────────────────────────────────────────────┘        │
+│                                                                             │
+│  ─────────────────────────────────────────────────────────────────────      │
+│  STEP 4: 커밋                                                               │
+│  ─────────────────────────────────────────────────────────────────────      │
+│                                                                             │
+│    User: /commit                                                            │
+│                                                                             │
+│    ┌──────────────┐     ┌──────────────┐     ┌──────────────┐              │
+│    │ PreToolUse   │────▶│ commit-      │────▶│ quality-     │              │
+│    │ safety check │     │ helper       │     │ gate         │              │
+│    └──────────────┘     └──────────────┘     └──────────────┘              │
+│           │                    │                    │                       │
+│           ▼                    ▼                    ▼                       │
+│    위험 명령어            Conventional         lint, test,                  │
+│    차단 검사              Commit 생성          format 검사                   │
+│                                                                             │
+│  ─────────────────────────────────────────────────────────────────────      │
+│  STEP 5: 기능 완료                                                          │
+│  ─────────────────────────────────────────────────────────────────────      │
+│                                                                             │
+│    User: /feature complete                                                  │
+│                                                                             │
+│    ┌──────────────┐     ┌──────────────┐     ┌──────────────┐              │
+│    │ quality-gate │────▶│ pr-creator   │────▶│ agile-sync   │              │
+│    │ pre-merge    │     │              │     │              │              │
+│    └──────────────┘     └──────────────┘     └──────────────┘              │
+│           │                    │                    │                       │
+│           ▼                    ▼                    ▼                       │
+│    테스트 통과            PR 생성              CHANGELOG,                    │
+│    커버리지 확인                               README 동기화                  │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
 ```
 
-### Quick Commands
+---
+
+## 🔄 컴포넌트 연결 구조
+
+### 전체 통합 맵
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                          cc-initializer INTEGRATION MAP                      │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│   ┌─────────── SKILLS ───────────┐    ┌─────────── AGENTS ──────────────┐  │
+│   │                               │    │                                 │  │
+│   │  /init ──────────────────────────▶ dev-docs-writer                  │  │
+│   │    │                          │    │      │                          │  │
+│   │    └──▶ /validate ───────────────▶ config-validator                 │  │
+│   │                               │    │                                 │  │
+│   │  /phase ─────────────────────────▶ phase-tracker                    │  │
+│   │    │                          │    │      │                          │  │
+│   │    └──▶ /sprint ─────────────────▶ progress-tracker                 │  │
+│   │                               │    │                                 │  │
+│   │  /feature ───────────────────────▶ branch-manager + pr-creator      │  │
+│   │                               │    │                                 │  │
+│   │  /bugfix ────────────────────────▶ git-troubleshooter               │  │
+│   │                               │    │                                 │  │
+│   │  /release ───────────────────────▶ quality-gate agent               │  │
+│   │                               │    │                                 │  │
+│   │  /repair ────────────────────────▶ config-validator                 │  │
+│   │                               │    │                                 │  │
+│   │  /sync-fix ──────────────────────▶ progress-tracker                 │  │
+│   │                               │    │                                 │  │
+│   └───────────────────────────────┘    └─────────────────────────────────┘  │
+│                    │                                    │                   │
+│                    ▼                                    ▼                   │
+│   ┌─────────── HOOKS ────────────┐    ┌─────────── DOCUMENTS ───────────┐  │
+│   │                               │    │                                 │  │
+│   │  PreToolUse:                  │    │  docs/                          │  │
+│   │    pre-tool-use-safety.sh ───────▶   ├── PROGRESS.md                │  │
+│   │                               │    │   ├── CONTEXT.md                │  │
+│   │  PostToolUse:                 │    │   ├── PRD.md                    │  │
+│   │    phase-progress.sh ────────────▶   ├── TECH-SPEC.md               │  │
+│   │    auto-doc-sync.sh ─────────────▶   ├── phases/                    │  │
+│   │    post-tool-use-tracker.sh ─────▶   │   ├── phase-1/               │  │
+│   │                               │    │   │   ├── SPEC.md              │  │
+│   │  Recovery:                    │    │   │   ├── TASKS.md             │  │
+│   │    error-recovery.sh ────────────▶   │   └── CHECKLIST.md           │  │
+│   │                               │    │   └── phase-N/                 │  │
+│   │  Notification:                │    │   └── sprints/                  │  │
+│   │    notification-handler.sh ──────▶       └── sprint-N/              │  │
+│   │                               │    │                                 │  │
+│   └───────────────────────────────┘    └─────────────────────────────────┘  │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 📋 상세 워크플로우 예시
+
+### 1️⃣ 프로젝트 초기화
 
 ```bash
-# Phase Management (NEW!)
-/phase status            # Check current phase progress
-/phase 2 tasks           # View phase 2 task list
-/phase complete 1        # Mark phase 1 as complete
-/phase start 2           # Start next phase
-
-# Sprint Management
-/sprint start --name "Sprint 1" --duration 2w
-/sprint status
-/sprint end
-
-# Automatic Synchronization
-/agile-sync              # Sync all: changelog, readme, progress
-/agile-sync --quick      # Quick stats update
-/readme-sync             # Sync README with actual components
-
-# Quality Gates
-/quality-gate pre-commit
-/quality-gate pre-release --version v1.0.0
-
-# Feedback & Learning
-/feedback learning "What I learned"
-/feedback adr "Architecture decision"
-/feedback retro
+# 프로젝트 디렉토리에서 실행
+/init --full
 ```
 
----
-
-## 📁 Contents
-
+**결과:**
 ```
-cc-initializer/
-├── .claude/
-│   ├── agents/              # 17 Sub-agents
-│   │   ├── phase-tracker.md # ⭐ NEW: Phase progress tracking
-│   │   └── ...
-│   ├── skills/              # 19 Skills
-│   │   ├── init.md
-│   │   ├── review.md
-│   │   ├── phase-development.md  # ⭐ NEW: Phase workflow
-│   │   ├── agile-sync/      # Agile synchronization
-│   │   ├── readme-sync/     # README auto-update
-│   │   ├── sprint/          # Sprint management
-│   │   ├── feedback-loop/   # Learning & ADR
-│   │   ├── quality-gate/    # Quality validation
-│   │   └── ...
-│   ├── commands/            # 3 Commands
-│   │   ├── phase.md         # ⭐ NEW: Phase management
-│   │   └── ...
-│   └── hooks/               # 5 Hooks
-│       ├── phase-progress.md # ⭐ NEW: Auto phase updates
-│       ├── auto-doc-sync.sh  # Auto documentation
-│       └── ...
+📁 your-project/
+├── CLAUDE.md              # 프로젝트 메모리 (자동 생성)
 ├── docs/
-│   └── templates/
-│       └── phase/           # ⭐ NEW: Phase templates
-│           ├── SPEC.md
-│           ├── TASKS.md
-│           └── CHECKLIST.md
-├── CLAUDE.md
-└── README.md
+│   ├── PRD.md             # 제품 요구사항
+│   ├── TECH-SPEC.md       # 기술 설계서
+│   ├── PROGRESS.md        # 진행 현황
+│   ├── CONTEXT.md         # AI 컨텍스트 요약
+│   └── phases/            # (복잡도 HIGH인 경우)
+│       ├── phase-1/
+│       │   ├── SPEC.md
+│       │   ├── TASKS.md
+│       │   └── CHECKLIST.md
+│       └── phase-2/
+└── .claude/               # 설정 (복사된 것)
 ```
 
----
-
-## 🤖 Sub-Agents (17)
-
-### Development & Analysis
-
-| Agent | Purpose | Keywords |
-|-------|---------|----------|
-| `project-analyzer` | Analyze project structure | "analyze", "structure" |
-| `code-reviewer` | Review code quality | "review", "PR" |
-| `test-helper` | Write and analyze tests | "test", "coverage" |
-| `refactor-assistant` | Improve code structure | "refactor", "clean" |
-| `file-explorer` | Analyze file structure | "files", "cleanup" |
-
-### Documentation
-
-| Agent | Purpose | Keywords |
-|-------|---------|----------|
-| `doc-generator` | Generate documentation | "document", "README" |
-| `doc-splitter` | Split large documents | "split doc" |
-| `doc-validator` | Validate completeness | "validate", "check" |
-| `prd-writer` | Write PRD documents | "PRD", "requirements" |
-| `tech-spec-writer` | Write technical specs | "tech spec", "design" |
-| `progress-tracker` | Track progress | "progress", "status" |
-| `phase-tracker` | ⭐ Track phase progress | "phase", "진행", "단계" |
-
-### Git & Version Control
-
-| Agent | Purpose | Keywords |
-|-------|---------|----------|
-| `commit-helper` | Create commit messages | "commit" |
-| `branch-manager` | Manage branches | "branch" |
-| `pr-creator` | Create pull requests | "PR", "pull request" |
-| `git-troubleshooter` | Resolve git issues | "conflict", "git" |
-| `work-unit-manager` | Manage work units | "work unit" |
-
----
-
-## 🛠 Skills (19)
-
-### Core Workflows
-
-| Skill | Usage | Description |
-|-------|-------|-------------|
-| `/init` | `/init [path]` | Initialize project analysis |
-| `/review` | `/review [target]` | Code review workflow |
-| `/doc` | `/doc [type]` | Generate documentation |
-| `/test` | `/test [action]` | Testing workflow |
-| `/refactor` | `/refactor [target]` | Refactoring workflow |
-| `/commit` | `/commit [--type]` | Conventional commits |
-
-### ⭐ Phase & Agile Automation
-
-| Skill | Usage | Description |
-|-------|-------|-------------|
-| `phase-development` | Auto-activated | ⭐ Phase-based development workflow |
-| `/agile-sync` | `/agile-sync [--full]` | Sync all agile artifacts |
-| `/readme-sync` | `/readme-sync [--validate]` | Auto-update README |
-| `/sprint` | `/sprint <cmd>` | Sprint lifecycle management |
-| `/feedback` | `/feedback <cmd>` | Learning & ADR capture |
-| `/quality-gate` | `/quality-gate <checkpoint>` | Quality validation |
-
-### Advanced Skills
-
-| Skill | Purpose |
-|-------|---------|
-| `brainstorming` | Turn ideas into designs |
-| `context-optimizer` | Optimize token usage |
-| `hook-creator` | Create Claude Code hooks |
-| `subagent-creator` | Create custom agents |
-| `skill-creator` | Create new skills |
-| `dev-doc-system` | Documentation system |
-| `prompt-enhancer` | Enhance prompts |
-
----
-
-## 🔗 Hooks (5)
-
-| Hook | Event | Purpose |
-|------|-------|---------|
-| `phase-progress` | PostToolUse | ⭐ Auto-update phase progress |
-| `auto-doc-sync` | PostToolUse | Auto-update CHANGELOG & README |
-| `pre-tool-use-safety` | PreToolUse | Block dangerous operations |
-| `post-tool-use-tracker` | PostToolUse | Track changes |
-| `notification-handler` | Notification | Handle notifications |
-
----
-
-## 📋 Commands (3)
-
-### phase (NEW!)
-- Phase status checking and management
-- Task completion tracking
-- Phase transition workflow
-- Progress calculation automation
-
-### git-workflow
-- `COMMIT-CONVENTION.md` - Conventional commit rules
-- `BRANCH-STRATEGY.md` - Branch naming strategy
-- `PR-TEMPLATE.md` - Pull request template
-
-### dev-doc-planner
-- `PRD-TEMPLATE.md` - Product requirements
-- `TECH-SPEC-TEMPLATE.md` - Technical specification
-- `PROGRESS-TEMPLATE.md` - Progress tracking
-
----
-
-## 💡 Usage Examples
-
-### Phase-Based Development Workflow (NEW!)
+### 2️⃣ Phase 기반 개발
 
 ```bash
-# 1. Setup Phase Structure
-mkdir -p docs/phases/phase-1 docs/phases/phase-2
-# Copy templates from cc-initializer/docs/templates/phase/
+# Phase 1 시작
+/phase start 1
 
-# 2. Check Current Phase Status
-/phase status                    # View all phases progress
-/phase 1 tasks                   # View Phase 1 tasks
+# Task 진행 상황 확인
+/phase 1 tasks
 
-# 3. During Development
-# Task 완료 시 TASKS.md 업데이트 → hook이 자동으로 PROGRESS.md 갱신
+# 출력 예시:
+# ┌────────────────────────────────────────┐
+# │ Phase 1: 기초 인프라                    │
+# │ Progress: [████████░░░░░░░░░░░░] 40%   │
+# ├────────────────────────────────────────┤
+# │ ✅ T1-01: 프로젝트 구조 설정            │
+# │ ✅ T1-02: 개발 환경 구성                │
+# │ 🔄 T1-03: 기본 모델 구현                │
+# │ ⏳ T1-04: 단위 테스트 작성              │
+# │ ⏳ T1-05: 문서화                        │
+# └────────────────────────────────────────┘
 
-# 4. Complete Phase
-/phase complete 1               # Mark Phase 1 complete
-/phase start 2                  # Start Phase 2
-
-# 5. Track Progress
-/phase summary                  # View overall progress
+# Task 완료 시 TASKS.md 업데이트
+# → phase-progress.sh Hook이 자동으로 진행률 계산
 ```
 
-### Phase Document Structure
+### 3️⃣ Sprint 실행
+
+```bash
+# Sprint 시작 (Phase 1과 연동)
+/sprint start --phase 1 --name "Sprint 1"
+
+# Sprint Backlog 확인
+/sprint status
+
+# 출력 예시:
+# ┌────────────────────────────────────────┐
+# │ Sprint 1 (Phase 1 연동)                │
+# │ 기간: 2025-01-15 ~ 2025-01-29          │
+# │ Velocity: 21 points                    │
+# ├────────────────────────────────────────┤
+# │ Backlog:                               │
+# │   S1-01: T1-03 구현 (5pt) 🔄           │
+# │   S1-02: T1-04 테스트 (3pt) ⏳         │
+# │   S1-03: T1-05 문서 (2pt) ⏳           │
+# └────────────────────────────────────────┘
+
+# Sprint 완료
+/sprint end
+# → 자동으로 velocity 계산, RETRO.md 생성
+```
+
+### 4️⃣ 기능 개발 워크플로우
+
+```bash
+# 새 기능 시작
+/feature start "사용자 인증" --phase 1
+
+# 결과:
+# ✅ Created branch: feature/user-auth
+# ✅ Added to Phase 1 TASKS.md
+# ✅ Updated PROGRESS.md
+
+# ... 개발 진행 ...
+
+# 기능 완료
+/feature complete
+
+# 결과:
+# ✅ quality-gate pre-merge: PASSED
+# ✅ Created PR #42
+# ✅ Updated CHANGELOG.md
+# ✅ Synced documentation
+```
+
+### 5️⃣ 에러 발생 시 복구
+
+```bash
+# Hook 실패 또는 설정 오류 시
+
+# 1. 진단
+/repair --diagnose
+
+# 출력 예시:
+# 🔍 REPAIR: System Diagnosis
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# ⚠️ Hook: phase-progress.sh not executable
+# ⚠️ Document: PROGRESS.md outdated
+# ✅ Configuration: Valid
+#
+# 💡 Run `/repair --auto` to fix
+
+# 2. 자동 복구
+/repair --auto
+
+# 결과:
+# ✅ Fixed: chmod +x phase-progress.sh
+# ✅ Fixed: Recalculated PROGRESS.md
+
+# 3. 동기화 문제 해결
+/sync-fix --all
+
+# 결과:
+# ✅ Phase ↔ PROGRESS.md synced
+# ✅ Sprint ↔ Phase linked
+```
+
+---
+
+## 🛡️ 에러 복구 시스템
 
 ```
-docs/phases/
-├── phase-1/
-│   ├── SPEC.md        # Technical specification
-│   ├── TASKS.md       # Task list with status (⬜/🔄/✅)
-│   └── CHECKLIST.md   # Completion criteria
-├── phase-2/
+┌─────────────────────────────────────────────────────────────────────┐
+│                     ERROR RECOVERY FLOW                              │
+├─────────────────────────────────────────────────────────────────────┤
+│                                                                     │
+│   Hook 실행                                                         │
+│       │                                                             │
+│       ▼                                                             │
+│   ┌─────────────┐                                                   │
+│   │ Hook 분류   │                                                   │
+│   └─────────────┘                                                   │
+│       │                                                             │
+│       ├── Critical (pre-tool-use-safety.sh)                        │
+│       │       │                                                     │
+│       │       └── 실패 시 → ❌ 작업 차단 + 에러 로그              │
+│       │                                                             │
+│       └── Non-Critical (그 외 모든 Hook)                           │
+│               │                                                     │
+│               └── 실패 시 → ⚠️ 로그 기록 + 계속 진행               │
+│                                    │                                │
+│                                    ▼                                │
+│                          ┌─────────────────┐                       │
+│                          │ 복구 제안 출력   │                       │
+│                          │ /repair --auto  │                       │
+│                          └─────────────────┘                       │
+│                                                                     │
+│   로그 위치: .claude/logs/                                          │
+│       ├── error.log      # 에러 기록                                │
+│       └── recovery.log   # 복구 작업 기록                           │
+│                                                                     │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 📁 프로젝트 구조
+
+```
+.claude/
+├── settings.json           # 통합 설정
+├── agents/                 # 20개 전문 에이전트
+│   ├── progress-tracker.md
+│   ├── phase-tracker.md
+│   ├── dev-docs-writer.md
+│   ├── commit-helper.md
 │   └── ...
-└── phase-N/
-    └── ...
-```
-
-### Complete Sprint Workflow
-
-```bash
-# 1. Start Sprint
-/sprint start --name "Feature Sprint" --duration 2w --goal "Complete auth"
-
-# 2. During Development
-/agile-sync                    # Sync documentation
-/quality-gate pre-commit       # Validate before commit
-/commit --type feat            # Create commit
-
-# 3. Before PR
-/quality-gate pre-merge        # Full validation
-/readme-sync                   # Update README
-
-# 4. End Sprint
-/sprint end                    # Close sprint, generate retro
-
-# 5. Release
-/quality-gate pre-release --version v1.0.0
-git tag v1.0.0
-/quality-gate post-release --version v1.0.0
-```
-
-### Capture Learnings
-
-```bash
-# After fixing a bug
-/feedback learning "Database pooling prevents timeouts"
-
-# Architecture decision
-/feedback adr "Use PostgreSQL over MySQL"
-
-# Sprint retrospective
-/feedback retro --quick
-```
-
-### Automatic Documentation
-
-```bash
-# After any code change, hook auto-updates:
-# - CHANGELOG.md (from commit messages)
-# - README.md stats (component counts)
-
-# Manual sync for full update
-/agile-sync --full
+├── skills/                 # 15개 스킬
+│   ├── init/
+│   ├── validate/
+│   ├── sprint/
+│   ├── repair/             # NEW: 시스템 복구
+│   ├── sync-fix/           # NEW: 동기화 복구
+│   └── ...
+├── commands/               # 6개 워크플로우 명령
+│   ├── feature.md
+│   ├── bugfix.md
+│   ├── release.md
+│   └── ...
+├── hooks/                  # 6개 자동화 Hook
+│   ├── phase-progress.sh
+│   ├── pre-tool-use-safety.sh
+│   ├── auto-doc-sync.sh
+│   ├── error-recovery.sh   # NEW: 에러 복구
+│   └── ...
+├── templates/              # NEW: 표준 템플릿
+│   └── phase/
+│       ├── SPEC.md
+│       ├── TASKS.md
+│       └── CHECKLIST.md
+├── logs/                   # NEW: 로그 디렉토리
+│   ├── error.log
+│   └── recovery.log
+└── docs/                   # 프레임워크 문서
+    ├── ARCHITECTURE.md
+    ├── ERROR-RECOVERY.md
+    ├── E2E-TEST-SCENARIOS.md
+    └── HOOK-TEST-RESULTS.md
 ```
 
 ---
 
-## ⚙️ Configuration
-
-### settings.json
+## ⚙️ 설정 (settings.json)
 
 ```json
 {
-  "hooks": {
-    "PostToolUse": [
-      { "matcher": "Bash", "command": ".claude/hooks/auto-doc-sync.sh" }
-    ]
+  "phase": {
+    "enabled": true,
+    "auto_progress_update": true,
+    "templates": {
+      "location": ".claude/templates/phase"
+    }
   },
-  "agile": {
-    "auto_changelog": true,
-    "auto_readme_sync": true,
-    "sprint_tracking": true
+  "sprint": {
+    "enabled": true,
+    "phase_integration": {
+      "enabled": true,
+      "auto_update_phase_tasks": true
+    }
+  },
+  "recovery": {
+    "enabled": true,
+    "graceful_degradation": true,
+    "auto_recover_on_hook_failure": true
+  },
+  "context-optimizer": {
+    "enabled": true,
+    "auto_load_phase_docs": true,
+    "token_budget": {
+      "quick": 2000,
+      "standard": 10000,
+      "deep": 30000
+    }
   }
 }
 ```
 
 ---
 
-## 📊 Stats
+## 📊 컴포넌트 통계
 
-| Category | Count |
-|----------|:-----:|
-| Agents | 17 |
-| Skills | 19 |
-| Commands | 3 |
-| Hooks | 5 |
-| Templates | 13+ |
-| **Total** | **57+** |
+| 카테고리 | 개수 | 주요 항목 |
+|---------|:----:|---------|
+| Agents | 20 | progress-tracker, phase-tracker, dev-docs-writer |
+| Skills | 15 | init, validate, sprint, repair, sync-fix |
+| Commands | 6 | feature, bugfix, release, phase, sprint |
+| Hooks | 6 | phase-progress, safety, auto-doc-sync, error-recovery |
+| Templates | 3 | SPEC.md, TASKS.md, CHECKLIST.md |
+| **Total** | **50+** | |
 
 ---
 
 ## 🎯 Best Practices
 
-### Phase Development (NEW!)
-1. ✅ Create phase folders with SPEC, TASKS, CHECKLIST
-2. ✅ Update TASKS.md immediately when completing work
-3. ✅ Use `/phase status` to check progress
-4. ✅ Complete all CHECKLIST items before phase transition
-5. ✅ Load only current phase docs for token efficiency
+### ✅ DO
 
-### Agile Workflow
-1. ✅ Start with `/sprint start` for new development cycles
-2. ✅ Run `/agile-sync` daily or after major changes
-3. ✅ Use `/quality-gate` before commits and releases
-4. ✅ Capture learnings with `/feedback learning`
-5. ✅ Run `/sprint end` with retrospective
+1. **프로젝트 시작 시** `/init --full` 실행
+2. **개발 전** `/validate --full`로 설정 검증
+3. **Task 완료 시** 즉시 TASKS.md 업데이트
+4. **커밋 전** quality-gate 자동 실행 확인
+5. **문제 발생 시** `/repair --diagnose`로 진단
 
-### Documentation
-1. ✅ Run `/init` when starting a new project
-2. ✅ Keep CLAUDE.md updated with `/agile-sync`
-3. ✅ Use conventional commits for auto-changelog
-4. ✅ Run `/readme-sync` after adding components
+### ❌ DON'T
+
+1. settings.json 직접 수정 (검증 없이)
+2. Hook 파일 권한 변경 무시
+3. PROGRESS.md 수동 편집 (Hook이 관리)
+4. Phase 건너뛰기 (순차 진행 권장)
 
 ---
 
-## 📦 Requirements
-
-- Claude Code CLI
-- Git (for version control)
-- Bash (for hooks)
-- Project-specific tools (npm, pytest, dotnet, etc.)
-
----
-
-## 🔄 Upgrading
-
-If you have an older version:
+## 📦 설치
 
 ```bash
-# Backup existing config
-cp -r your-project/.claude your-project/.claude.backup
+# 1. 저장소 클론
+git clone https://github.com/tygwan/cc-initializer.git
 
-# Copy new version
+# 2. 프로젝트에 복사
 cp -r cc-initializer/.claude your-project/.claude
 
-# Merge custom configurations if needed
+# Windows:
+Copy-Item -Recurse "cc-initializer/.claude" "your-project/.claude"
+
+# 3. (선택) Hook 실행 권한 부여 (Unix/Mac)
+chmod +x your-project/.claude/hooks/*.sh
+```
+
+---
+
+## 🔄 업그레이드
+
+```bash
+# 기존 설정 백업
+cp -r .claude .claude.backup
+
+# 새 버전 복사
+cp -r cc-initializer/.claude .
+
+# 커스텀 설정 병합 (필요시)
+# settings.json의 커스텀 항목 복원
 ```
 
 ---
 
 ## 📜 Changelog
 
-### v2.1.0 (2025-01-09)
+### v2.2.0 (2025-01-09)
 #### Added
-- Phase-based development system
-  - `phase-tracker` agent for progress tracking
-  - `phase` command for phase management
-  - `phase-progress` hook for auto-updates
-  - `phase-development` skill for workflow guidance
-- Phase templates: SPEC.md, TASKS.md, CHECKLIST.md
-- Token-optimized context loading strategy
+- 에러 복구 시스템 (`/repair`, `/sync-fix`)
+- Phase 표준 템플릿 (`.claude/templates/phase/`)
+- context-optimizer Phase 연동 강화
+- E2E 테스트 시나리오 문서
+- 에러/복구 로그 시스템
+
+#### Improved
+- Hook 안정성 (graceful degradation)
+- dev-docs-writer 품질 표준
+- Windows Git Bash 호환성
+
+### v2.1.0 (2025-01-08)
+- Phase 기반 개발 시스템
+- Sprint-Phase 통합
 
 ### v2.0.0 (2025-01-07)
-#### Added
-- Agile automation skills: `agile-sync`, `readme-sync`, `sprint`, `feedback-loop`, `quality-gate`
-- Auto-documentation hook: `auto-doc-sync.sh`
-- Sprint templates and velocity tracking
-- Quality gates for CI/CD integration
-- Learning and ADR templates
-
-### v1.0.0
-- Initial release with 15 agents, 13 skills, 3 hooks
+- Agile 자동화 (Sprint, Quality Gate)
+- Auto-documentation Hooks
 
 ---
 
 ## 📄 License
 
-MIT - Use freely in any project.
+MIT - 모든 프로젝트에서 자유롭게 사용하세요.
 
 ---
 
@@ -448,7 +553,8 @@ MIT - Use freely in any project.
 
 - [GitHub Repository](https://github.com/tygwan/cc-initializer)
 - [Issues & Feedback](https://github.com/tygwan/cc-initializer/issues)
+- [Architecture Documentation](.claude/docs/ARCHITECTURE.md)
 
 ---
 
-**Made with ❤️ for productive development**
+**Made with ❤️ for productive Claude Code development**

@@ -62,6 +62,12 @@
       "spec": "SPEC.md",
       "tasks": "TASKS.md",
       "checklist": "CHECKLIST.md"
+    },
+    "templates": {
+      "location": ".claude/templates/phase",
+      "spec_template": "SPEC.md",
+      "tasks_template": "TASKS.md",
+      "checklist_template": "CHECKLIST.md"
     }
   },
   "sprint": {
@@ -145,5 +151,30 @@
     "required_agents": ["progress-tracker", "phase-tracker", "dev-docs-writer"],
     "required_hooks": ["phase-progress.sh", "pre-tool-use-safety.sh"],
     "required_skills": ["init", "validate", "sprint", "agile-sync"]
+  },
+  "recovery": {
+    "enabled": true,
+    "auto_recover_on_hook_failure": true,
+    "max_retry_count": 3,
+    "log_retention_days": 7,
+    "graceful_degradation": true,
+    "critical_hooks": ["pre-tool-use-safety.sh"],
+    "non_critical_hooks": ["auto-doc-sync.sh", "phase-progress.sh", "post-tool-use-tracker.sh", "notification-handler.sh"],
+    "auto_fixable": {
+      "hook_permissions": true,
+      "missing_directories": true,
+      "log_rotation": true
+    },
+    "manual_required": {
+      "missing_docs": ["PROGRESS.md", "CONTEXT.md"],
+      "invalid_json": true
+    },
+    "log_settings": {
+      "log_dir": ".claude/logs",
+      "error_log": "error.log",
+      "recovery_log": "recovery.log",
+      "max_log_size_mb": 1,
+      "max_log_files": 5
+    }
   }
 }

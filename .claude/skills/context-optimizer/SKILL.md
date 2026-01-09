@@ -181,6 +181,100 @@ Priority 3 (On-Demand):
 | Deep dive | ~30K | All docs + relevant source |
 | Full context | ~50K+ | Complete project load |
 
+## Phase-Aware Context Loading
+
+### 자동 Phase 감지
+
+```yaml
+# settings.json
+context-optimizer:
+  auto_load_phase_docs: true
+  token_budget:
+    quick: 2000
+    standard: 10000
+    deep: 30000
+    full: 50000
+```
+
+### Phase 문서 로딩 전략
+
+```
+Phase 감지 흐름:
+1. PROGRESS.md에서 현재 Phase 확인
+2. 해당 Phase 디렉토리 로드
+3. SPEC.md → 범위 및 요구사항
+4. TASKS.md → 현재 작업 목록
+5. CHECKLIST.md → 완료 체크
+```
+
+### Phase별 컨텍스트 템플릿
+
+```markdown
+# Phase {{N}} Context Summary
+
+## 현재 상태
+- Phase: {{PHASE_NAME}}
+- 진행률: {{PROGRESS}}%
+- 활성 Task: {{ACTIVE_TASKS}}
+
+## 핵심 파일
+{{PRIORITY_FILES}}
+
+## 현재 작업
+{{CURRENT_WORK}}
+
+## 참조 문서
+- [SPEC.md](docs/phases/phase-{{N}}/SPEC.md)
+- [TASKS.md](docs/phases/phase-{{N}}/TASKS.md)
+```
+
+### 세션 복구 워크플로우
+
+```
+새 세션 시작 시:
+
+┌─────────────────────┐
+│  CONTEXT.md 로드    │◀─── 필수
+└─────────┬───────────┘
+          │
+          ▼
+┌─────────────────────┐
+│ PROGRESS.md 확인    │◀─── Phase N 감지
+└─────────┬───────────┘
+          │
+          ▼
+┌─────────────────────┐
+│ Phase N 문서 로드   │◀─── SPEC + TASKS
+└─────────┬───────────┘
+          │
+          ▼
+┌─────────────────────┐
+│ 작업 재개           │
+└─────────────────────┘
+```
+
+### 토큰 예산별 Phase 로딩
+
+| 예산 | 로드 범위 | 토큰 |
+|------|----------|------|
+| Quick | CONTEXT.md + PROGRESS.md | ~2K |
+| Standard | + 현재 Phase (SPEC, TASKS) | ~10K |
+| Deep | + 인접 Phase + 소스 코드 | ~30K |
+| Full | 모든 Phase + 전체 문서 | ~50K+ |
+
+## Sprint 통합
+
+Phase와 Sprint 동시 사용 시:
+
+```yaml
+Context Loading Priority:
+  1. CONTEXT.md
+  2. PROGRESS.md
+  3. 현재 Sprint (sprints/sprint-N/)
+  4. 연결된 Phase (phases/phase-N/)
+  5. 소스 코드
+```
+
 ## Best Practices
 
 1. **Start Lean**: Load minimum required context
@@ -190,3 +284,5 @@ Priority 3 (On-Demand):
 5. **Document Dependencies**: Track what requires what
 6. **Use Phase Documents**: Leverage doc-splitter phase structure
 7. **Update PROGRESS.md**: Record session outcomes for continuity
+8. **Phase-First**: 현재 Phase 문서 우선 로드
+9. **Token Budget**: 세션 유형에 맞는 토큰 예산 설정

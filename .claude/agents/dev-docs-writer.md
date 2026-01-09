@@ -176,6 +176,77 @@ docs/
     └── ...
 ```
 
+## Template Integration
+
+### Phase 템플릿 사용
+
+Phase 문서 생성 시 표준 템플릿을 사용합니다:
+
+```
+.claude/templates/phase/
+├── SPEC.md        # Phase 명세서 템플릿
+├── TASKS.md       # Task 목록 템플릿
+└── CHECKLIST.md   # 완료 체크리스트 템플릿
+```
+
+**템플릿 적용 규칙**:
+1. 복잡도 HIGH인 경우 → Phase 문서 자동 생성
+2. 템플릿의 플레이스홀더 치환
+3. 프로젝트 정보로 초기화
+
+### 플레이스홀더 치환 예시
+
+```markdown
+# 원본 템플릿
+{{PHASE_NUMBER}} → 1
+{{PHASE_NAME}} → "기초 인프라 구축"
+{{START_DATE}} → "2025-01-15"
+{{TASK_1}} → "개발 환경 설정"
+```
+
+## Quality Standards
+
+### 문서 품질 체크리스트
+
+**PRD.md**:
+- [ ] 프로젝트 목적이 한 문장으로 명확
+- [ ] 핵심 기능 3-5개 정의
+- [ ] 우선순위(P0-P2) 명시
+- [ ] 성공 지표 측정 가능
+
+**TECH-SPEC.md**:
+- [ ] 아키텍처 다이어그램 포함
+- [ ] 기술 스택 명시
+- [ ] 주요 API 인터페이스 정의
+- [ ] 데이터 모델 정의
+
+**PROGRESS.md**:
+- [ ] 현재 Phase 표시
+- [ ] 진행률 퍼센트 표시
+- [ ] 마일스톤 테이블 포함
+- [ ] 최근 업데이트 날짜
+
+**CONTEXT.md**:
+- [ ] 100단어 이내 요약
+- [ ] 핵심 파일 5개 이내 나열
+- [ ] 현재 작업 영역 명시
+
+### 출력 검증
+
+문서 생성 후 자동 검증:
+
+```yaml
+validation_rules:
+  min_sections: 3
+  required_headers:
+    PRD: ["Overview", "Requirements", "Success Metrics"]
+    TECH_SPEC: ["Architecture", "Technology Stack"]
+    PROGRESS: ["Current Status", "Milestones"]
+    CONTEXT: ["Quick Reference", "Current Focus"]
+  max_file_size: 50KB
+  language: "ko" # 기본 한국어
+```
+
 ## Output Location
 
 Documents should be placed in:

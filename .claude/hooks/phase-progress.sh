@@ -6,7 +6,20 @@
 # Events: PostToolUse (Edit, Write on TASKS.md files)
 #
 
-set -e
+# Graceful error handling - don't exit on error, log and continue
+set +e
+trap 'handle_error $? $LINENO' ERR
+
+handle_error() {
+    local exit_code=$1
+    local line_no=$2
+    log_warning "Error at line $line_no (code: $exit_code) - continuing gracefully"
+    # Log to recovery system if available
+    local log_dir="$PROJECT_ROOT/.claude/logs"
+    if [[ -d "$log_dir" ]]; then
+        echo "[$(date '+%Y-%m-%d %H:%M:%S')] phase-progress.sh error at line $line_no (code: $exit_code)" >> "$log_dir/error.log"
+    fi
+}
 
 TOOL_NAME="$1"
 TOOL_INPUT="$2"
