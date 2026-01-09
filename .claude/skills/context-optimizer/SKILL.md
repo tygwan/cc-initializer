@@ -139,6 +139,48 @@ Relevant files: [list]
 Apply optimization? [Yes/No]
 ```
 
+## Integration with dev-docs-writer
+
+This skill works with the `dev-docs-writer` agent for optimal context management:
+
+### Document Priority Loading
+
+```yaml
+Priority 1 (Always Load):
+  - docs/CONTEXT.md      # Quick reference, architecture snapshot
+  - docs/PROGRESS.md     # Current phase, active tasks
+
+Priority 2 (Phase-Specific):
+  - docs/phases/phase-N/SPEC.md     # Current phase details
+  - docs/phases/phase-N/TASKS.md    # Phase tasks
+  - src/[active-module]/*           # Active development files
+
+Priority 3 (On-Demand):
+  - docs/PRD.md          # Requirements reference
+  - docs/TECH-SPEC.md    # Technical details
+  - src/**/*             # Specific files as needed
+```
+
+### Session Continuity
+
+```markdown
+## Starting a new session:
+
+1. Load: docs/CONTEXT.md
+2. Check: Current phase from PROGRESS.md
+3. Load: Phase-specific files (docs/phases/phase-N/)
+4. Resume: Work from last checkpoint
+```
+
+### Token Budget Guidelines
+
+| Session Type | Token Budget | Loading Strategy |
+|--------------|--------------|------------------|
+| Quick check | ~2K | CONTEXT.md only |
+| Standard dev | ~10K | CONTEXT + PROGRESS + active files |
+| Deep dive | ~30K | All docs + relevant source |
+| Full context | ~50K+ | Complete project load |
+
 ## Best Practices
 
 1. **Start Lean**: Load minimum required context
@@ -146,3 +188,5 @@ Apply optimization? [Yes/No]
 3. **Summarize Utilities**: Keep only interfaces for helpers
 4. **Cache Summaries**: Reuse context summaries across sessions
 5. **Document Dependencies**: Track what requires what
+6. **Use Phase Documents**: Leverage doc-splitter phase structure
+7. **Update PROGRESS.md**: Record session outcomes for continuity
