@@ -189,6 +189,19 @@
     "auto_run_validation": true,
     "report_changes": true
   },
+  "update": {
+    "enabled": true,
+    "source_locations": [
+      "~/dev/cc-initializer",
+      "~/.cc-initializer"
+    ],
+    "env_var": "CC_INITIALIZER_PATH",
+    "github_repo": "https://github.com/tygwan/cc-initializer.git",
+    "default_branch": "main",
+    "auto_sync_after_update": true,
+    "show_changelog": true,
+    "require_confirmation": true
+  },
   "safety": {
     "block_dangerous_commands": true,
     "warn_on_sensitive_files": true,

@@ -7,7 +7,7 @@ description: Initialize and analyze a new project. First engages in discovery co
 
 ## Usage
 ```
-/init [path] [--discover|--generate|--full|--quick|--sync]
+/init [path] [--discover|--generate|--full|--quick|--sync|--update]
 ```
 
 ### Parameters
@@ -17,6 +17,7 @@ description: Initialize and analyze a new project. First engages in discovery co
 - `--full`: **Complete flow** - Framework setup → Discovery → Confirmation → Generate (RECOMMENDED for new projects)
 - `--quick`: Quick analysis for existing codebases, CLAUDE.md only
 - `--sync`: **Sync only** - Apply cc-initializer framework to existing project with .claude (MERGE mode)
+- `--update`: **Update & Sync** - Pull latest cc-initializer from GitHub, then sync to current project
 
 ### Examples
 ```bash
@@ -25,6 +26,7 @@ description: Initialize and analyze a new project. First engages in discovery co
 /init --discover           # Discovery conversation only
 /init --generate           # Generate docs from existing DISCOVERY.md
 /init --sync               # Sync cc-initializer to existing project
+/init --update             # Update cc-initializer from GitHub + sync
 /init ./my-project --full  # Initialize specific path
 ```
 
@@ -83,6 +85,24 @@ description: Initialize and analyze a new project. First engages in discovery co
 │    │                                                                         │
 │    └── Step 3: Validate and report                                          │
 │          └── Show what was added/updated                                    │
+│                                                                              │
+│  /init --update (update cc-initializer from GitHub + sync)                  │
+│    │                                                                         │
+│    ├── Step 1: Locate cc-initializer                                        │
+│    │     └── Find at ~/dev/cc-initializer or CC_INITIALIZER_PATH            │
+│    │                                                                         │
+│    ├── Step 2: Git pull latest                                              │
+│    │     ├── Check current branch (main)                                    │
+│    │     ├── git fetch origin                                               │
+│    │     ├── Show what's new (commits, changes)                             │
+│    │     ├── User confirmation                                              │
+│    │     └── git pull origin main                                           │
+│    │                                                                         │
+│    ├── Step 3: Run --sync                                                   │
+│    │     └── Apply updated components to current project                    │
+│    │                                                                         │
+│    └── Step 4: Report                                                       │
+│          └── Show update summary + sync results                             │
 │                                                                              │
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
@@ -269,6 +289,75 @@ Hooks:
 Settings:
   - Deep merge: cc-initializer defaults + project overrides
   - Project settings take precedence for conflicts
+```
+
+### --update Mode (NEW!)
+
+**Purpose**: Update cc-initializer from GitHub and sync to current project
+
+```
+/init --update
+    │
+    ▼
+┌─────────────────────────────────────────────────────────────┐
+│                    UPDATE WORKFLOW                            │
+│                                                               │
+│  Step 1: Locate cc-initializer                               │
+│  ─────────────────────────────                               │
+│  - Check ~/dev/cc-initializer                                │
+│  - Or use CC_INITIALIZER_PATH environment variable           │
+│  - Error if not found                                        │
+│                                                               │
+│  Step 2: Check for Updates                                   │
+│  ─────────────────────────────                               │
+│  - git fetch origin                                          │
+│  - Compare local vs remote (commits behind)                  │
+│  - Show changelog preview                                    │
+│                                                               │
+│  Step 3: User Confirmation                                   │
+│  ─────────────────────────────                               │
+│  - "N개의 새 커밋이 있습니다. 업데이트할까요?"                    │
+│  - Show what will change                                     │
+│                                                               │
+│  Step 4: Pull Updates                                        │
+│  ─────────────────────────────                               │
+│  - git pull origin main                                      │
+│  - Handle conflicts if any                                   │
+│                                                               │
+│  Step 5: Sync to Current Project                             │
+│  ─────────────────────────────                               │
+│  - Run --sync workflow                                       │
+│  - Apply new/updated components                              │
+│                                                               │
+│  Step 6: Report                                              │
+│  ─────────────────────────────                               │
+│  - Show update summary                                       │
+│  - List added/updated components                             │
+│                                                               │
+└─────────────────────────────────────────────────────────────┘
+```
+
+**When to use**:
+- cc-initializer에 새 기능이 추가되었을 때
+- 버그 수정이나 개선사항을 받고 싶을 때
+- 정기적으로 프레임워크 최신 상태 유지
+
+**Update Commands (executed internally)**:
+```bash
+# Step 1: Locate
+CC_INIT="${CC_INITIALIZER_PATH:-$HOME/dev/cc-initializer}"
+
+# Step 2: Fetch and check
+cd $CC_INIT
+git fetch origin
+git log HEAD..origin/main --oneline  # Show new commits
+
+# Step 3: Pull (after user confirmation)
+git pull origin main
+
+# Step 4: Sync (return to project and run --sync)
+cd $PROJECT_ROOT
+# ... run sync workflow ...
 ```
 
 ### --quick Mode
@@ -488,13 +577,25 @@ After /init --sync:
     │       │       │
     │       │       └── No → ERROR: Run /init --discover first
     │       │
-    ├── --sync? (NEW!)
+    ├── --sync?
     │       │
     │       ├── .claude/ exists?
     │       │       │
     │       │       ├── Yes → Analyze → Merge → Validate → Report → END
     │       │       │
     │       │       └── No → Full copy of .claude/ → END
+    │       │
+    ├── --update? (NEW!)
+    │       │
+    │       ├── Find cc-initializer location
+    │       │       │
+    │       │       ├── Found → git fetch → Show updates → User confirm
+    │       │       │                                           │
+    │       │       │           ├── Yes → git pull → --sync → Report → END
+    │       │       │           │
+    │       │       │           └── No → END (no changes)
+    │       │       │
+    │       │       └── Not found → ERROR: Set CC_INITIALIZER_PATH
     │       │
     └── --full? (or default for new project)
             │

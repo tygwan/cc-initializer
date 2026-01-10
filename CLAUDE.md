@@ -116,6 +116,7 @@ doc-splitter (HIGH complexity) → Phase 구조
 |-------|-------|
 | `/init --full` | 새 프로젝트 전체 초기화 |
 | `/init --sync` | 기존 프로젝트 동기화 |
+| `/init --update` | cc-initializer 업데이트 + 동기화 |
 | `/validate` | 설정 검증 |
 | `/phase` | Phase 관리 |
 | `/sprint` | Sprint 관리 |
