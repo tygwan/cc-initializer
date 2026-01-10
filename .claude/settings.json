@@ -151,6 +151,44 @@
       "HIGH": 10
     }
   },
+  "sync": {
+    "enabled": true,
+    "framework_source": "cc-initializer",
+    "merge_strategy": {
+      "agents": "add_missing",
+      "skills": "add_missing",
+      "commands": "add_missing",
+      "hooks": "add_missing",
+      "settings": "deep_merge"
+    },
+    "preserve_project_customizations": true,
+    "backup_before_sync": true,
+    "core_components": {
+      "agents": [
+        "file-explorer", "tech-spec-writer", "progress-tracker", "phase-tracker",
+        "doc-generator", "project-analyzer", "code-reviewer", "doc-splitter",
+        "test-helper", "git-troubleshooter", "google-searcher", "prd-writer",
+        "dev-docs-writer", "config-validator", "pr-creator", "commit-helper",
+        "doc-validator", "work-unit-manager", "branch-manager", "refactor-assistant",
+        "project-discovery"
+      ],
+      "skills": [
+        "init", "validate", "sprint", "agile-sync", "brainstorming",
+        "context-optimizer", "feedback-loop", "hook-creator", "subagent-creator",
+        "skill-creator", "prompt-enhancer", "dev-doc-system", "quality-gate",
+        "sync-fix", "repair", "readme-sync"
+      ],
+      "commands": [
+        "feature", "bugfix", "release", "phase", "git-workflow", "dev-doc-planner"
+      ],
+      "hooks": [
+        "phase-progress.sh", "pre-tool-use-safety.sh", "post-tool-use-tracker.sh",
+        "notification-handler.sh", "auto-doc-sync.sh"
+      ]
+    },
+    "auto_run_validation": true,
+    "report_changes": true
+  },
   "safety": {
     "block_dangerous_commands": true,
     "warn_on_sensitive_files": true,

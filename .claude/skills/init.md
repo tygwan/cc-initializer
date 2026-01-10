@@ -7,15 +7,16 @@ description: Initialize and analyze a new project. First engages in discovery co
 
 ## Usage
 ```
-/init [path] [--discover|--generate|--full|--quick]
+/init [path] [--discover|--generate|--full|--quick|--sync]
 ```
 
 ### Parameters
 - `path`: Optional. Project root path (default: current directory)
 - `--discover`: **Discovery only** - Engage in conversation to understand project, create DISCOVERY.md
 - `--generate`: **Generate only** - Create docs from existing DISCOVERY.md
-- `--full`: **Complete flow** - Discovery → Confirmation → Generate (RECOMMENDED for new projects)
+- `--full`: **Complete flow** - Framework setup → Discovery → Confirmation → Generate (RECOMMENDED for new projects)
 - `--quick`: Quick analysis for existing codebases, CLAUDE.md only
+- `--sync`: **Sync only** - Apply cc-initializer framework to existing project with .claude (MERGE mode)
 
 ### Examples
 ```bash
@@ -23,6 +24,7 @@ description: Initialize and analyze a new project. First engages in discovery co
 /init --full               # Full workflow with discovery (NEW PROJECT)
 /init --discover           # Discovery conversation only
 /init --generate           # Generate docs from existing DISCOVERY.md
+/init --sync               # Sync cc-initializer to existing project
 /init ./my-project --full  # Initialize specific path
 ```
 
@@ -30,12 +32,17 @@ description: Initialize and analyze a new project. First engages in discovery co
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                        /INIT WORKFLOW CHAIN (v3.0)                           │
+│                        /INIT WORKFLOW CHAIN (v4.0)                           │
 ├─────────────────────────────────────────────────────────────────────────────┤
 │                                                                              │
 │  /init --full (RECOMMENDED for new projects)                                 │
 │    │                                                                         │
-│    ├── Step 1: Project Discovery (NEW!)                                     │
+│    ├── Step 0: Framework Setup (NEW!)                                       │
+│    │     ├── Copy cc-initializer's .claude/ to target project               │
+│    │     ├── Includes: agents, skills, commands, hooks, templates           │
+│    │     └── Merge with existing .claude/ if present                        │
+│    │                                                                         │
+│    ├── Step 1: Project Discovery                                            │
 │    │     ├── Trigger: project-discovery agent                               │
 │    │     ├── Engage in conversation with user                               │
 │    │     ├── Understand goals, requirements, tech stack                     │
@@ -56,8 +63,26 @@ description: Initialize and analyze a new project. First engages in discovery co
 │    │     ├── Input: DISCOVERY.md (required!)                                │
 │    │     └── Output: PRD.md, TECH-SPEC.md, PROGRESS.md, CONTEXT.md         │
 │    │                                                                         │
-│    └── Step 6: Trigger doc-splitter (if HIGH complexity)                    │
+│    ├── Step 6: Project-specific Agents (NEW!)                               │
+│    │     └── Create additional agents based on project needs                │
+│    │                                                                         │
+│    └── Step 7: Trigger doc-splitter (if HIGH complexity)                    │
 │          └── Create Phase structure in docs/phases/                         │
+│                                                                              │
+│  /init --sync (for existing projects with partial .claude)                  │
+│    │                                                                         │
+│    ├── Step 1: Analyze existing .claude/                                    │
+│    │     └── Detect what's missing from cc-initializer                      │
+│    │                                                                         │
+│    ├── Step 2: Merge cc-initializer components                              │
+│    │     ├── Add missing agents (preserve existing)                         │
+│    │     ├── Add missing skills (preserve existing)                         │
+│    │     ├── Add missing commands (preserve existing)                       │
+│    │     ├── Add missing hooks (preserve existing)                          │
+│    │     └── Merge settings.json (smart merge)                              │
+│    │                                                                         │
+│    └── Step 3: Validate and report                                          │
+│          └── Show what was added/updated                                    │
 │                                                                              │
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
@@ -140,14 +165,20 @@ If complexity = HIGH → doc-splitter
 
 ### --full Mode (RECOMMENDED)
 
-**Purpose**: Complete workflow with discovery and generation
+**Purpose**: Complete workflow with framework setup, discovery, and generation
 
 ```
 /init --full
     │
     ▼
 ┌─────────────────────────────────────────────────────────────┐
-│                    FULL WORKFLOW                              │
+│                    FULL WORKFLOW (v4.0)                       │
+│                                                               │
+│  Phase 0: Framework Setup (NEW!)                             │
+│  ───────────────────────────                                 │
+│  Copy cc-initializer .claude/ to target project              │
+│  → agents/, skills/, commands/, hooks/, templates/           │
+│  → Merge with existing .claude/ if present                   │
 │                                                               │
 │  Phase 1: Discovery                                          │
 │  ─────────────────                                           │
@@ -164,7 +195,12 @@ If complexity = HIGH → doc-splitter
 │  dev-docs-writer uses DISCOVERY.md                           │
 │  → Creates PRD, TECH-SPEC, PROGRESS, CONTEXT                │
 │                                                               │
-│  Phase 4: Structure (if needed)                              │
+│  Phase 4: Project-specific Agents (NEW!)                     │
+│  ───────────────────────────────                             │
+│  Based on tech stack, create additional agents               │
+│  → E.g., react-component-generator, api-designer             │
+│                                                               │
+│  Phase 5: Structure (if needed)                              │
 │  ─────────────────                                           │
 │  doc-splitter for HIGH complexity                            │
 │  → Creates Phase structure                                   │
@@ -175,6 +211,65 @@ If complexity = HIGH → doc-splitter
 **When to use**:
 - 새 프로젝트 시작 시 (RECOMMENDED)
 - 프로젝트를 처음부터 체계적으로 세팅하고 싶을 때
+
+### --sync Mode (NEW!)
+
+**Purpose**: Synchronize cc-initializer framework to existing project
+
+```
+/init --sync
+    │
+    ▼
+┌─────────────────────────────────────────────────────────────┐
+│                    SYNC WORKFLOW                              │
+│                                                               │
+│  Step 1: Analyze Existing .claude/                           │
+│  ─────────────────────────────────                           │
+│  - Check what components exist                               │
+│  - Identify missing agents, skills, hooks, commands          │
+│  - Compare settings.json                                     │
+│                                                               │
+│  Step 2: Merge Components                                    │
+│  ────────────────────────                                    │
+│  - Copy missing agents (preserve existing)                   │
+│  - Copy missing skills (preserve existing)                   │
+│  - Copy missing commands (preserve existing)                 │
+│  - Copy missing hooks (preserve existing)                    │
+│  - Smart merge settings.json                                 │
+│                                                               │
+│  Step 3: Validate & Report                                   │
+│  ─────────────────────────                                   │
+│  - Run /validate --full                                      │
+│  - Report added/updated components                           │
+│                                                               │
+└─────────────────────────────────────────────────────────────┘
+```
+
+**When to use**:
+- 기존 프로젝트에 cc-initializer 구성이 일부만 적용된 경우
+- cc-initializer 업데이트 후 기존 프로젝트에 새 기능 적용 시
+- 프로젝트별 커스텀 agents는 유지하면서 기본 구성 동기화 시
+
+**Merge Strategy**:
+```yaml
+Agents:
+  - cc-initializer agents: ALWAYS add if missing
+  - Project agents: ALWAYS preserve
+  - Conflict: Project version takes precedence (no overwrite)
+
+Skills:
+  - cc-initializer skills: ALWAYS add if missing
+  - Project skills: ALWAYS preserve
+  - Conflict: Project version takes precedence
+
+Hooks:
+  - cc-initializer hooks: ALWAYS add if missing
+  - settings.json hooks: Smart merge (append, don't replace)
+
+Settings:
+  - Deep merge: cc-initializer defaults + project overrides
+  - Project settings take precedence for conflicts
+```
 
 ### --quick Mode
 
@@ -201,6 +296,62 @@ If complexity = HIGH → doc-splitter
 - 문서 생성이 필요 없을 때
 
 ## Step Details
+
+### Step 0: Framework Setup (NEW!)
+
+```yaml
+Trigger: --full or --sync mode
+Source: cc-initializer's .claude/ directory
+Target: Project's .claude/ directory
+
+Components to Copy:
+  agents/:
+    - file-explorer.md
+    - tech-spec-writer.md
+    - progress-tracker.md
+    - phase-tracker.md
+    - doc-generator.md
+    - project-analyzer.md
+    - code-reviewer.md
+    - doc-splitter.md
+    - test-helper.md
+    - git-troubleshooter.md
+    - google-searcher.md
+    - prd-writer.md
+    - dev-docs-writer.md
+    - config-validator.md
+    - pr-creator.md
+    - commit-helper.md
+    - doc-validator.md
+    - work-unit-manager.md
+    - branch-manager.md
+    - refactor-assistant.md
+    - project-discovery.md
+
+  skills/:
+    - init.md, validate/, sprint/, agile-sync/
+    - brainstorming/, context-optimizer/, feedback-loop/
+    - hook-creator/, subagent-creator/, skill-creator/
+    - prompt-enhancer/, dev-doc-system/, quality-gate/
+    - sync-fix/, repair/, readme-sync/
+
+  commands/:
+    - feature.md, bugfix.md, release.md, phase.md
+    - git-workflow.md, dev-doc-planner.md
+
+  hooks/:
+    - phase-progress.sh, pre-tool-use-safety.sh
+    - post-tool-use-tracker.sh, notification-handler.sh
+    - auto-doc-sync.sh
+
+  templates/:
+    - phase/, README.md
+
+Merge Logic:
+  - If target file exists: SKIP (preserve project customization)
+  - If target file missing: COPY from cc-initializer
+  - settings.json: Deep merge (see below)
+```
 
 ### Step 1: Project Discovery
 
@@ -284,6 +435,19 @@ After /init --full:
 
 [project-root]/
 ├── CLAUDE.md              # Project context file
+├── .claude/               # Framework components (NEW!)
+│   ├── settings.json      # Unified configuration
+│   ├── agents/            # 21 core agents + project-specific
+│   │   ├── file-explorer.md
+│   │   ├── progress-tracker.md
+│   │   ├── phase-tracker.md
+│   │   ├── dev-docs-writer.md
+│   │   ├── ... (all cc-initializer agents)
+│   │   └── [project-specific-agent].md  # Created based on tech stack
+│   ├── skills/            # All workflow skills
+│   ├── commands/          # Workflow commands
+│   ├── hooks/             # Automation hooks
+│   └── templates/         # Document templates
 └── docs/
     ├── DISCOVERY.md       # Discovery report (from conversation)
     ├── PRD.md             # Product requirements
@@ -293,6 +457,18 @@ After /init --full:
     └── phases/            # (if HIGH complexity)
         ├── phase-1/
         └── ...
+
+After /init --sync:
+
+[project-root]/
+├── .claude/
+│   ├── settings.json      # Merged (cc-initializer + project)
+│   ├── agents/            # cc-initializer agents + existing project agents
+│   ├── skills/            # cc-initializer skills + existing project skills
+│   ├── commands/          # Merged commands
+│   ├── hooks/             # Merged hooks
+│   └── [existing-content] # All existing content preserved
+└── [existing-project-files]
 ```
 
 ## Decision Flow
@@ -312,8 +488,18 @@ After /init --full:
     │       │       │
     │       │       └── No → ERROR: Run /init --discover first
     │       │
-    │
+    ├── --sync? (NEW!)
+    │       │
+    │       ├── .claude/ exists?
+    │       │       │
+    │       │       ├── Yes → Analyze → Merge → Validate → Report → END
+    │       │       │
+    │       │       └── No → Full copy of .claude/ → END
+    │       │
     └── --full? (or default for new project)
+            │
+            ▼
+        Framework Setup (Step 0)
             │
             ▼
         project-discovery
@@ -323,7 +509,7 @@ After /init --full:
             │
             ├── Changes? → Update DISCOVERY.md → Loop
             │
-            └── Confirmed → dev-docs-writer → docs/ → END
+            └── Confirmed → dev-docs-writer → Project Agents → docs/ → END
 ```
 
 ## Best Practices
@@ -332,6 +518,11 @@ After /init --full:
 ```bash
 # RECOMMENDED: Full discovery workflow
 /init --full
+# This will:
+# 1. Copy all cc-initializer components to .claude/
+# 2. Run discovery conversation
+# 3. Generate documentation
+# 4. Create project-specific agents if needed
 
 # Alternative: Separate steps
 /init --discover    # First: understand project
@@ -339,7 +530,18 @@ After /init --full:
 /init --generate    # Then: generate docs
 ```
 
-### For Existing Codebases
+### For Existing Codebases (with partial .claude/)
+```bash
+# RECOMMENDED: Sync cc-initializer framework
+/init --sync
+# This will:
+# 1. Analyze existing .claude/
+# 2. Add missing agents, skills, commands, hooks
+# 3. Preserve your custom components
+# 4. Merge settings.json intelligently
+```
+
+### For Existing Codebases (without .claude/)
 ```bash
 # Quick context
 /init --quick
@@ -352,6 +554,7 @@ After /init --full:
 - After major scope changes: `/init --discover` then `/init --generate`
 - After tech stack changes: `/init --generate`
 - For quick refresh: `/init --quick`
+- After cc-initializer update: `/init --sync` (keeps your customizations)
 
 ## Integration Points
 
@@ -374,3 +577,61 @@ After /init --full:
 ### With context-optimizer
 - CONTEXT.md created for token optimization
 - Phase documents structured for efficient loading
+
+### With config-validator
+- Called after --sync to validate merged configuration
+- Ensures all components are properly integrated
+
+### With /validate skill
+- Auto-triggered after --sync mode
+- Reports any issues with the merged setup
+
+## Framework Sync Details
+
+### cc-initializer Source Location
+```bash
+# cc-initializer must be available at one of these locations:
+~/dev/cc-initializer/
+~/.cc-initializer/
+# Or specify via CC_INITIALIZER_PATH environment variable
+```
+
+### Sync Report Example
+```
+/init --sync completed!
+
+📦 Components Added:
+  Agents: +5 (progress-tracker, phase-tracker, dev-docs-writer, commit-helper, pr-creator)
+  Skills: +3 (sprint, agile-sync, quality-gate)
+  Commands: +2 (feature, release)
+  Hooks: +1 (phase-progress.sh)
+
+🔒 Preserved (not overwritten):
+  Agents: 2 (custom-api-generator, custom-db-migrator)
+  Skills: 1 (custom-deploy)
+
+⚙️ Settings Merged:
+  - Added: phase, sprint, quality-gate sections
+  - Preserved: Custom project settings
+
+✅ Validation: Passed
+```
+
+### Troubleshooting
+
+**Q: Sync didn't add expected components?**
+```bash
+# Check if component already exists
+ls .claude/agents/
+# Sync only adds MISSING components
+
+# Force re-sync (will backup existing)
+/init --sync --force
+```
+
+**Q: Settings merge conflicts?**
+```bash
+# Project settings always take precedence
+# Review merged result in .claude/settings.json
+# Backup saved at .claude/settings.json.backup
+```

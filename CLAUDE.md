@@ -12,8 +12,11 @@ Agents, Skills, Hooks, Commands를 유기적으로 연결하여 효율적인 개
 ## Quick Start
 
 ```bash
-# 프로젝트 초기화
+# 새 프로젝트 초기화 (전체 .claude/ 복사 + Discovery + 문서 생성)
 /init --full
+
+# 기존 프로젝트에 cc-initializer 동기화 (기존 설정 유지하며 병합)
+/init --sync
 
 # 설정 검증
 /validate --full
@@ -55,28 +58,40 @@ Agents, Skills, Hooks, Commands를 유기적으로 연결하여 효율적인 개
 
 | Category | Count | Purpose |
 |----------|-------|---------|
-| Agents | 20 | 전문화된 작업 수행 |
-| Skills | 12 | 워크플로우 자동화 |
+| Agents | 21 | 전문화된 작업 수행 |
+| Skills | 16 | 워크플로우 자동화 |
 | Commands | 6 | 통합 개발 플로우 |
 | Hooks | 5 | 자동 트리거 작업 |
 
 ## Core Workflows
 
-### 1. Phase 기반 개발
+### 1. 새 프로젝트 초기화 (v4.0)
 
 ```
-/init --full → dev-docs-writer → doc-splitter (HIGH complexity)
-                     ↓
-              phase-tracker → progress-tracker
+/init --full
+    ↓
+Framework Setup (.claude/ 전체 복사)
+    ↓
+project-discovery → DISCOVERY.md
+    ↓
+dev-docs-writer → PRD, TECH-SPEC, PROGRESS, CONTEXT
+    ↓
+doc-splitter (HIGH complexity) → Phase 구조
 ```
 
-### 2. Sprint 실행
+### 2. 기존 프로젝트 동기화
+
+```
+/init --sync → .claude/ 분석 → 누락 컴포넌트 병합 → 검증
+```
+
+### 3. Sprint 실행
 
 ```
 /sprint start --phase N → Task 선택 → /sprint complete → Phase 업데이트
 ```
 
-### 3. 기능 개발
+### 4. 기능 개발
 
 ```
 /feature start → 개발 → /feature progress → /feature complete
@@ -99,7 +114,8 @@ Agents, Skills, Hooks, Commands를 유기적으로 연결하여 효율적인 개
 
 | Skill | Usage |
 |-------|-------|
-| `/init` | 프로젝트 초기화/분석 |
+| `/init --full` | 새 프로젝트 전체 초기화 |
+| `/init --sync` | 기존 프로젝트 동기화 |
 | `/validate` | 설정 검증 |
 | `/phase` | Phase 관리 |
 | `/sprint` | Sprint 관리 |
@@ -131,7 +147,8 @@ Agents, Skills, Hooks, Commands를 유기적으로 연결하여 효율적인 개
 ├──────────────────────────────────────────────────────────────┤
 │                                                               │
 │  [Skills]              [Agents]              [Hooks]          │
-│  /init ──────────────► dev-docs-writer                        │
+│  /init --full ───────► Framework Setup + project-discovery    │
+│  /init --sync ───────► config-validator (merge & validate)    │
 │  /validate ──────────► config-validator                       │
 │  /phase ─────────────► phase-tracker ◄───── phase-progress.sh │
 │  /sprint ────────────► progress-tracker                       │
@@ -141,6 +158,10 @@ Agents, Skills, Hooks, Commands를 유기적으로 연결하여 효율적인 개
 │  /feature ───────────► Git + Phase + Sprint + Quality Gate   │
 │  /bugfix ────────────► Git + Sprint + Analyzer               │
 │  /release ───────────► Quality Gate + Sprint + Phase         │
+│                                                               │
+│  [Framework Setup]     [Components Copied]                    │
+│  .claude/ ───────────► agents/ + skills/ + commands/          │
+│                        hooks/ + templates/ + settings.json    │
 │                                                               │
 └──────────────────────────────────────────────────────────────┘
 ```
@@ -153,6 +174,11 @@ Agents, Skills, Hooks, Commands를 유기적으로 연결하여 효율적인 개
 {
   "phase": { "enabled": true },
   "sprint": { "enabled": true, "phase_integration": { "enabled": true } },
+  "sync": {
+    "enabled": true,
+    "merge_strategy": { "agents": "add_missing", "settings": "deep_merge" },
+    "preserve_project_customizations": true
+  },
   "validation": { "auto_check_on_start": false }
 }
 ```
