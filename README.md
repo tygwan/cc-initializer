@@ -522,9 +522,31 @@ cp -r cc-initializer/.claude your-project/.claude
 # Windows:
 Copy-Item -Recurse "cc-initializer/.claude" "your-project/.claude"
 
-# 3. (선택) Hook 실행 권한 부여 (Unix/Mac)
+# 3. Hook 실행 권한 확인 (Unix/Mac) - v4.1.1부터 자동 설정됨
+# 권한 오류 발생 시에만 실행
 chmod +x your-project/.claude/hooks/*.sh
 ```
+
+---
+
+## 🔧 Troubleshooting
+
+### Hook Permission Denied 오류
+```
+PostToolUse:Bash hook error: Permission denied
+.claude/hooks/auto-doc-sync.sh: Permission denied
+```
+
+**해결 방법:**
+```bash
+# 프로젝트 hooks
+chmod +x .claude/hooks/*.sh
+
+# 글로벌 hooks
+chmod +x ~/.claude/hooks/*.sh
+```
+
+> **Note**: v4.1.1부터 hook 파일은 실행 권한이 포함된 상태로 배포됩니다.
 
 ---
 
@@ -534,6 +556,10 @@ chmod +x your-project/.claude/hooks/*.sh
 #### Added
 - 🆕 **Attribution Badge** - README.md에 "Powered by cc-initializer" 배지 자동 삽입
 - 초기화된 프로젝트에 출처 표시 기능
+
+#### Fixed
+- 🔧 **Hook Permission** - 모든 `.sh` 파일에 실행 권한(755) 부여
+- Git에서 hook 파일을 실행 가능한 상태로 추적하도록 수정
 
 ### v4.1.0 (2026-01-11)
 #### Added

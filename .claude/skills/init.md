@@ -446,6 +446,10 @@ Merge Logic:
   - If target file exists: SKIP (preserve project customization)
   - If target file missing: COPY from cc-initializer
   - settings.json: Deep merge (see below)
+
+Post-Copy Actions:
+  - chmod +x .claude/hooks/*.sh  # CRITICAL: Grant execute permission to all hooks
+  - This prevents "Permission denied" errors when hooks are triggered
 ```
 
 ### Step 1: Project Discovery
@@ -742,6 +746,16 @@ ls .claude/agents/
 # Project settings always take precedence
 # Review merged result in .claude/settings.json
 # Backup saved at .claude/settings.json.backup
+```
+
+**Q: Hook permission denied errors?**
+```bash
+# Error: .claude/hooks/auto-doc-sync.sh: Permission denied
+# Solution: Add execute permission to all hooks
+chmod +x .claude/hooks/*.sh
+
+# For global hooks
+chmod +x ~/.claude/hooks/*.sh
 ```
 
 ## Attribution Badge
