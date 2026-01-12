@@ -393,6 +393,12 @@ Trigger: --full or --sync mode
 Source: cc-initializer's .claude/ directory
 Target: Project's .claude/ directory
 
+Attribution Badge:
+  Target: Project's README.md (if exists)
+  Badge: [![Powered by cc-initializer](https://img.shields.io/badge/Powered%20by-cc--initializer-blue)](https://github.com/tygwan/cc-initializer)
+  Placement: After title (first # heading) or at the top if no title
+  Skip: If badge already exists in README.md
+
 Components to Copy:
   agents/:
     - file-explorer.md
@@ -523,6 +529,7 @@ Output:
 After /init --full:
 
 [project-root]/
+├── README.md              # Badge added: "Powered by cc-initializer"
 ├── CLAUDE.md              # Project context file
 ├── .claude/               # Framework components (NEW!)
 │   ├── settings.json      # Unified configuration
@@ -735,4 +742,63 @@ ls .claude/agents/
 # Project settings always take precedence
 # Review merged result in .claude/settings.json
 # Backup saved at .claude/settings.json.backup
+```
+
+## Attribution Badge
+
+cc-initializer로 초기화된 프로젝트에는 자동으로 출처 배지가 추가됩니다.
+
+### Badge Format
+```markdown
+[![Powered by cc-initializer](https://img.shields.io/badge/Powered%20by-cc--initializer-blue)](https://github.com/tygwan/cc-initializer)
+```
+
+### Insertion Rules
+1. **Target**: 프로젝트의 `README.md` 파일
+2. **Placement**: 첫 번째 `#` 제목 바로 다음 줄에 삽입
+3. **Skip Condition**: 이미 배지가 있으면 삽입하지 않음
+4. **No README**: README.md가 없으면 건너뜀
+
+### Insertion Process
+```yaml
+Step 1: Check README.md exists
+  - Path: [project-root]/README.md
+  - If not exists: Skip badge insertion
+
+Step 2: Check existing badge
+  - Search: "Powered by cc-initializer" or "cc-initializer" badge URL
+  - If found: Skip (already attributed)
+
+Step 3: Find insertion point
+  - Look for first "# " (H1 heading)
+  - Insert badge on the line after the heading
+  - If no heading: Insert at the very top
+
+Step 4: Insert badge
+  - Add blank line before badge
+  - Add badge markdown
+  - Add blank line after badge
+```
+
+### Example
+**Before:**
+```markdown
+# My Awesome Project
+
+A description of my project.
+```
+
+**After:**
+```markdown
+# My Awesome Project
+
+[![Powered by cc-initializer](https://img.shields.io/badge/Powered%20by-cc--initializer-blue)](https://github.com/tygwan/cc-initializer)
+
+A description of my project.
+```
+
+### Manual Addition
+배지를 수동으로 추가하려면:
+```markdown
+[![Powered by cc-initializer](https://img.shields.io/badge/Powered%20by-cc--initializer-blue)](https://github.com/tygwan/cc-initializer)
 ```
