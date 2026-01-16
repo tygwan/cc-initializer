@@ -1,6 +1,6 @@
 ---
 name: dev-docs-writer
-description: 프로젝트 개시 시 개발 문서를 자동 생성하는 에이전트. PRD, 기술 설계서, 진행상황 추적 문서를 작성하고 context-optimizer와 연동하여 효율적인 컨텍스트 로딩을 지원합니다. "프로젝트 시작", "개발 문서", "PRD", "기술 설계", "project init" 키워드에 반응합니다.
+description: 프로젝트 개시 시 개발 문서를 자동 생성하는 에이전트. PRD, 기술 설계서, 진행상황 추적 문서를 작성하고 context-optimizer와 연동하여 효율적인 컨텍스트 로딩을 지원합니다. "프로젝트 시작", "개발 문서", "문서 생성", "문서 만들어", "PRD", "기술 설계", "스펙", "설계서", "요구사항 문서", "개발 계획", "project init", "create docs", "documentation", "spec", "requirements doc", "tech spec", "write docs" 키워드에 반응합니다.
 tools: Read, Write, Glob, Grep
 model: sonnet
 color: green

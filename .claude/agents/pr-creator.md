@@ -1,6 +1,6 @@
 ---
 name: pr-creator
-description: PR 생성 및 설명 작성 전문가. PR 생성, 템플릿 작성, 관련 문서 연결 시 사용. "PR", "pull request", "머지 요청" 키워드에 반응.
+description: PR 생성 및 설명 작성 전문가. PR 생성, 템플릿 작성, 관련 문서 연결 시 사용. "PR", "PR 만들어", "PR 생성", "풀리퀘", "pull request", "머지 요청", "merge request", "MR", "코드 올려", "리뷰 요청", "review request", "create PR", "open PR" 키워드에 반응.
 tools: Bash, Read, Write, Grep, Glob
 model: sonnet
 ---

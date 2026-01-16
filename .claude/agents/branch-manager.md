@@ -1,6 +1,6 @@
 ---
 name: branch-manager
-description: GitHub Flow 기반 브랜치 및 Remote 관리 전문가. 브랜치 생성/삭제, Remote 설정, 원격 저장소 관리 시 사용. "브랜치", "branch", "remote", "원격", "upstream" 키워드에 반응.
+description: GitHub Flow 기반 브랜치 및 Remote 관리 전문가. 브랜치 생성/삭제, Remote 설정, 원격 저장소 관리 시 사용. "브랜치", "branch", "브랜치 만들어", "새 브랜치", "브랜치 생성", "브랜치 삭제", "브랜치 전환", "checkout", "switch", "remote", "원격", "upstream", "origin", "fetch", "pull", "push", "merge branch", "create branch", "delete branch" 키워드에 반응.
 tools: Bash, Read, Grep, Glob
 model: sonnet
 ---

@@ -1,6 +1,6 @@
 ---
 name: commit-helper
-description: Conventional Commits 기반 커밋 메시지 작성 전문가. 변경사항 분석, 커밋 메시지 생성, Breaking Change 감지 시 사용. "커밋", "commit", "메시지 작성" 키워드에 반응.
+description: Conventional Commits 기반 커밋 메시지 작성 전문가. 변경사항 분석, 커밋 메시지 생성, Breaking Change 감지 시 사용. "커밋", "커밋해", "저장해", "올려", "push", "변경사항 저장", "커밋 메시지", "메시지 작성", "커밋 도와", "git commit", "commit message", "commit", "save changes", "stage", "staged" 키워드에 반응.
 tools: Read, Bash, Grep, Glob
 model: sonnet
 ---

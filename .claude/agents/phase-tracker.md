@@ -1,6 +1,6 @@
 ---
 name: phase-tracker
-description: Phase별 개발 진행상황 추적 및 관리 에이전트. Phase 전환, 진행률 계산, 체크리스트 검증을 자동화합니다. "phase", "단계", "phase 상태" 키워드에 반응합니다.
+description: Phase별 개발 진행상황 추적 및 관리 에이전트. Phase 전환, 진행률 계산, 체크리스트 검증을 자동화합니다. "phase", "단계", "페이즈", "phase 상태", "현재 단계", "몇 단계", "단계 전환", "다음 phase", "phase 완료", "phase 시작", "단계별", "phase N", "phase-N", "next phase", "current phase", "phase transition" 키워드에 반응합니다.
 tools: Read, Write, Glob, Grep
 model: haiku
 color: blue

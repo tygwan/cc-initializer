@@ -1,6 +1,6 @@
 ---
 name: progress-tracker
-description: 개발 진행상황 통합 추적 에이전트. Phase 시스템과 연동하여 진행률을 관리합니다. "진행상황", "진척", "progress", "status" 키워드에 반응.
+description: 개발 진행상황 통합 추적 에이전트. Phase 시스템과 연동하여 진행률을 관리합니다. "진행상황", "진척", "얼마나 됐", "어디까지", "현재 상태", "뭐했어", "완료율", "몇 퍼센트", "남은 작업", "뭐 남았", "진행률", "상태 확인", "현황", "progress", "status", "how far", "what's done", "completion", "remaining", "overview" 키워드에 반응.
 tools: Read, Write, Bash, Grep, Glob
 model: haiku
 ---
