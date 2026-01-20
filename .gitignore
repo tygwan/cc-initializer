@@ -1,0 +1,28 @@
+# Claude Code Analytics
+.claude/analytics/metrics.jsonl
+
+# Plans (temporary)
+.claude/plans/
+
+# Logs
+.claude/logs/
+.claude/session.log
+.claude/changes.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Node (if any)
+node_modules/
+
+# Python (if any)
+__pycache__/
+*.pyc
+.env

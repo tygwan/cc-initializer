@@ -170,13 +170,13 @@
         "test-helper", "git-troubleshooter", "google-searcher", "prd-writer",
         "dev-docs-writer", "config-validator", "pr-creator", "commit-helper",
         "doc-validator", "work-unit-manager", "branch-manager", "refactor-assistant",
-        "project-discovery"
+        "project-discovery", "analytics-reporter"
       ],
       "skills": [
         "init", "validate", "sprint", "agile-sync", "brainstorming",
         "context-optimizer", "feedback-loop", "hook-creator", "subagent-creator",
         "skill-creator", "prompt-enhancer", "dev-doc-system", "quality-gate",
-        "sync-fix", "repair", "readme-sync"
+        "sync-fix", "repair", "readme-sync", "analytics"
       ],
       "commands": [
         "feature", "bugfix", "release", "phase", "git-workflow", "dev-doc-planner"
@@ -238,6 +238,18 @@
       "recovery_log": "recovery.log",
       "max_log_size_mb": 1,
       "max_log_files": 5
+    }
+  },
+  "analytics": {
+    "enabled": true,
+    "track_tool_usage": true,
+    "track_agent_calls": true,
+    "track_skill_invocations": true,
+    "metrics_file": ".claude/analytics/metrics.jsonl",
+    "retention_days": 30,
+    "aggregation": {
+      "hourly_rollup": true,
+      "daily_summary": true
     }
   }
 }

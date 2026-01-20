@@ -30,10 +30,11 @@ Agents, Skills, Hooks, Commands를 유기적으로 연결하여 효율적인 개
 ```
 .claude/
 ├── settings.json          # 통합 설정
-├── agents/                # 20 specialized agents
+├── agents/                # 22 specialized agents
 │   ├── progress-tracker.md
 │   ├── phase-tracker.md
 │   ├── dev-docs-writer.md
+│   ├── analytics-reporter.md
 │   └── ...
 ├── skills/                # 12 skills
 │   ├── init/
@@ -49,6 +50,8 @@ Agents, Skills, Hooks, Commands를 유기적으로 연결하여 효율적인 개
 │   ├── phase-progress.sh
 │   ├── pre-tool-use-safety.sh
 │   └── ...
+├── analytics/             # Usage metrics (JSONL)
+│   └── metrics.jsonl
 └── docs/                  # Framework documentation
     ├── DOCUMENT-STRUCTURE.md
     └── SPRINT-PHASE-INTEGRATION.md
@@ -58,8 +61,8 @@ Agents, Skills, Hooks, Commands를 유기적으로 연결하여 효율적인 개
 
 | Category | Count | Purpose |
 |----------|-------|---------|
-| Agents | 21 | 전문화된 작업 수행 |
-| Skills | 16 | 워크플로우 자동화 |
+| Agents | 22 | 전문화된 작업 수행 |
+| Skills | 17 | 워크플로우 자동화 |
 | Commands | 6 | 통합 개발 플로우 |
 | Hooks | 5 | 자동 트리거 작업 |
 
@@ -121,6 +124,7 @@ doc-splitter (HIGH complexity) → Phase 구조
 | `/phase` | Phase 관리 |
 | `/sprint` | Sprint 관리 |
 | `/agile-sync` | 문서 동기화 |
+| `/analytics` | 사용 통계 시각화 |
 
 ### Workflow Commands
 
@@ -139,6 +143,7 @@ doc-splitter (HIGH complexity) → Phase 구조
 | `dev-docs-writer` | 개발 문서 생성 |
 | `commit-helper` | 커밋 메시지 작성 |
 | `config-validator` | 설정 검증 |
+| `analytics-reporter` | 사용 통계 및 리포트 |
 
 ## Integration Map
 
@@ -179,6 +184,11 @@ doc-splitter (HIGH complexity) → Phase 구조
     "enabled": true,
     "merge_strategy": { "agents": "add_missing", "settings": "deep_merge" },
     "preserve_project_customizations": true
+  },
+  "analytics": {
+    "enabled": true,
+    "metrics_file": ".claude/analytics/metrics.jsonl",
+    "retention_days": 30
   },
   "validation": { "auto_check_on_start": false }
 }
