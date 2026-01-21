@@ -816,3 +816,43 @@ A description of my project.
 ```markdown
 [![Powered by cc-initializer](https://img.shields.io/badge/Powered%20by-cc--initializer-blue)](https://github.com/tygwan/cc-initializer)
 ```
+
+## Community Registration
+
+cc-initializer를 사용하는 프로젝트는 커뮤니티 쇼케이스에 등록할 수 있습니다.
+
+### Auto-discovery (Recommended)
+
+GitHub repo에 `uses-cc-initializer` topic을 추가하면 자동으로 발견됩니다.
+
+```
+GitHub Repository → Settings → Topics → "uses-cc-initializer" 추가
+```
+
+등록된 프로젝트는 cc-initializer README의 "Projects Using cc-initializer" 섹션에 자동 표시됩니다.
+
+### Manual Registration
+
+PR을 통해 직접 등록:
+1. [PROJECTS.json](https://github.com/tygwan/cc-initializer/blob/main/PROJECTS.json) 파일 수정
+2. 프로젝트 정보 추가:
+```json
+{
+  "name": "owner/repo",
+  "url": "https://github.com/owner/repo",
+  "description": "프로젝트 설명"
+}
+```
+3. PR 제출
+
+### Post-init Reminder
+
+`/init --full` 완료 후 표시되는 안내:
+```
+✅ 초기화 완료!
+
+💡 프로젝트를 커뮤니티에 공유하세요:
+   GitHub repo → Settings → Topics → "uses-cc-initializer" 추가
+
+   등록된 프로젝트는 cc-initializer README에 자동 표시됩니다.
+```
