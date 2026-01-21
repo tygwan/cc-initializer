@@ -30,7 +30,7 @@ Agents, Skills, Hooks, Commands를 유기적으로 연결하여 효율적인 개
 ```
 .claude/
 ├── settings.json          # 통합 설정
-├── agents/                # 22 specialized agents
+├── agents/                # 23 specialized agents
 │   ├── progress-tracker.md
 │   ├── phase-tracker.md
 │   ├── dev-docs-writer.md
@@ -61,8 +61,8 @@ Agents, Skills, Hooks, Commands를 유기적으로 연결하여 효율적인 개
 
 | Category | Count | Purpose |
 |----------|-------|---------|
-| Agents | 22 | 전문화된 작업 수행 |
-| Skills | 17 | 워크플로우 자동화 |
+| Agents | 23 | 전문화된 작업 수행 |
+| Skills | 18 | 워크플로우 자동화 |
 | Commands | 6 | 통합 개발 플로우 |
 | Hooks | 5 | 자동 트리거 작업 |
 
@@ -125,6 +125,7 @@ doc-splitter (HIGH complexity) → Phase 구조
 | `/sprint` | Sprint 관리 |
 | `/agile-sync` | 문서 동기화 |
 | `/analytics` | 사용 통계 시각화 |
+| `/gh` | GitHub CLI 통합 (이슈, PR, CI/CD, 릴리스) |
 
 ### Workflow Commands
 
@@ -144,6 +145,7 @@ doc-splitter (HIGH complexity) → Phase 구조
 | `commit-helper` | 커밋 메시지 작성 |
 | `config-validator` | 설정 검증 |
 | `analytics-reporter` | 사용 통계 및 리포트 |
+| `github-manager` | GitHub 통합 (이슈, PR, CI/CD, 릴리스) |
 
 ## Integration Map
 
@@ -159,6 +161,8 @@ doc-splitter (HIGH complexity) → Phase 구조
 │  /phase ─────────────► phase-tracker ◄───── phase-progress.sh │
 │  /sprint ────────────► progress-tracker                       │
 │  /agile-sync ────────► doc-generator                          │
+│  /gh ────────────────► github-manager (gh CLI)                │
+│  /analytics ─────────► analytics-reporter                     │
 │                                                               │
 │  [Commands]            [Integration]                          │
 │  /feature ───────────► Git + Phase + Sprint + Quality Gate   │
@@ -189,6 +193,12 @@ doc-splitter (HIGH complexity) → Phase 구조
     "enabled": true,
     "metrics_file": ".claude/analytics/metrics.jsonl",
     "retention_days": 30
+  },
+  "github": {
+    "enabled": true,
+    "default_base_branch": "main",
+    "pr": { "squash_merge": true },
+    "release": { "generate_notes": true }
   },
   "validation": { "auto_check_on_start": false }
 }

@@ -170,13 +170,13 @@
         "test-helper", "git-troubleshooter", "google-searcher", "prd-writer",
         "dev-docs-writer", "config-validator", "pr-creator", "commit-helper",
         "doc-validator", "work-unit-manager", "branch-manager", "refactor-assistant",
-        "project-discovery", "analytics-reporter"
+        "project-discovery", "analytics-reporter", "github-manager"
       ],
       "skills": [
         "init", "validate", "sprint", "agile-sync", "brainstorming",
         "context-optimizer", "feedback-loop", "hook-creator", "subagent-creator",
         "skill-creator", "prompt-enhancer", "dev-doc-system", "quality-gate",
-        "sync-fix", "repair", "readme-sync", "analytics"
+        "sync-fix", "repair", "readme-sync", "analytics", "gh"
       ],
       "commands": [
         "feature", "bugfix", "release", "phase", "git-workflow", "dev-doc-planner"
@@ -250,6 +250,32 @@
     "aggregation": {
       "hourly_rollup": true,
       "daily_summary": true
+    }
+  },
+  "github": {
+    "enabled": true,
+    "cli_path": "gh",
+    "default_base_branch": "main",
+    "pr": {
+      "auto_assign_reviewers": false,
+      "draft_by_default": false,
+      "template": ".github/PULL_REQUEST_TEMPLATE.md",
+      "squash_merge": true
+    },
+    "issue": {
+      "default_labels": [],
+      "auto_assign": true,
+      "link_to_branch": true
+    },
+    "ci": {
+      "watch_timeout": 600,
+      "auto_rerun_failed": false,
+      "notify_on_failure": true
+    },
+    "release": {
+      "generate_notes": true,
+      "draft_by_default": false,
+      "include_changelog": true
     }
   }
 }
