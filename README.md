@@ -161,6 +161,40 @@ Discovery (대화) → DISCOVERY.md
 
 ---
 
+## Real-World Example: DXTnavis
+
+> **DXTnavis** - Navisworks 2025 Property Viewer & 4D Automation Plugin
+
+| 항목 | 내용 |
+|------|------|
+| **기술 스택** | C# .NET 4.8, WPF MVVM, Navisworks API 2025 |
+| **버전** | v1.2.1 |
+| **Phases** | 13 (전체 완료) |
+
+### Phase Progress
+
+```
+Phase  1-4: Property & CSV     ████████████████████ 100%
+Phase  5-7: ComAPI & Viewer    ████████████████████ 100%
+Phase  8:   AWP 4D Automation  ████████████████████ 100%
+Phase  9-12: UI & Grouping     ████████████████████ 100%
+Phase 13:   TimeLiner v1.2.0   ████████████████████ 100%
+```
+
+### Key Features
+
+| Feature | Phase |
+|---------|-------|
+| 445K+ Property 처리 | 1-3 |
+| 3D Selection 동기화 | 3 |
+| AWP 4D 자동화 | 8 |
+| Direct TimeLiner 실행 | 10-13 |
+| TaskType 한글화 | 13 |
+
+**Repository**: [github.com/tygwan/DXTnavis](https://github.com/tygwan/DXTnavis)
+
+---
+
 ## Changelog
 
 | Version | Highlights |
