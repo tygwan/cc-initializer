@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/tygwan/cc-initializer/releases"><img src="https://img.shields.io/badge/version-4.4.0-blue?style=flat-square" alt="Version"/></a>
+  <a href="https://github.com/tygwan/cc-initializer/releases"><img src="https://img.shields.io/badge/version-4.5.0-blue?style=flat-square" alt="Version"/></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-green?style=flat-square" alt="License"/></a>
   <a href="https://github.com/tygwan/cc-initializer/stargazers"><img src="https://img.shields.io/github/stars/tygwan/cc-initializer?style=flat-square" alt="Stars"/></a>
 </p>
@@ -308,6 +308,7 @@ Phase 13    ████████████████████ 100%
 
 | Version | Release |
 |:-------:|---------|
+| `4.5.0` | README Helper & Agent Writer |
 | `4.4.0` | Community Project Discovery |
 | `4.3.0` | GitHub CLI Integration |
 | `4.2.0` | Analytics Visualization |
