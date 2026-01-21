@@ -170,7 +170,8 @@
         "test-helper", "git-troubleshooter", "google-searcher", "prd-writer",
         "dev-docs-writer", "config-validator", "pr-creator", "commit-helper",
         "doc-validator", "work-unit-manager", "branch-manager", "refactor-assistant",
-        "project-discovery", "analytics-reporter", "github-manager"
+        "project-discovery", "analytics-reporter", "github-manager",
+        "readme-helper", "agent-writer"
       ],
       "skills": [
         "init", "validate", "sprint", "agile-sync", "brainstorming",

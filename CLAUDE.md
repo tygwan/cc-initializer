@@ -30,7 +30,7 @@ Agents, Skills, Hooks, Commands를 유기적으로 연결하여 효율적인 개
 ```
 .claude/
 ├── settings.json          # 통합 설정
-├── agents/                # 23 specialized agents
+├── agents/                # 25 specialized agents
 │   ├── progress-tracker.md
 │   ├── phase-tracker.md
 │   ├── dev-docs-writer.md
@@ -61,7 +61,7 @@ Agents, Skills, Hooks, Commands를 유기적으로 연결하여 효율적인 개
 
 | Category | Count | Purpose |
 |----------|-------|---------|
-| Agents | 23 | 전문화된 작업 수행 |
+| Agents | 25 | 전문화된 작업 수행 |
 | Skills | 18 | 워크플로우 자동화 |
 | Commands | 6 | 통합 개발 플로우 |
 | Hooks | 5 | 자동 트리거 작업 |
@@ -146,6 +146,8 @@ doc-splitter (HIGH complexity) → Phase 구조
 | `config-validator` | 설정 검증 |
 | `analytics-reporter` | 사용 통계 및 리포트 |
 | `github-manager` | GitHub 통합 (이슈, PR, CI/CD, 릴리스) |
+| `readme-helper` | README 작성 및 개선 |
+| `agent-writer` | Agent 작성 및 검증 |
 
 ## Integration Map
 

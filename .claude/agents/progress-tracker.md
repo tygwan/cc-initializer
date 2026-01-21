@@ -1,20 +1,54 @@
 ---
 name: progress-tracker
-description: 개발 진행상황 통합 추적 에이전트. Phase 시스템과 연동하여 진행률을 관리합니다. "진행상황", "진척", "얼마나 됐", "어디까지", "현재 상태", "뭐했어", "완료율", "몇 퍼센트", "남은 작업", "뭐 남았", "진행률", "상태 확인", "현황", "progress", "status", "how far", "what's done", "completion", "remaining", "overview" 키워드에 반응.
-tools: Read, Write, Bash, Grep, Glob
+description: 개발 진행상황 통합 추적 에이전트. Phase 시스템과 연동하여 진행률을 관리합니다.
+triggers:
+  ko: ["진행상황", "진행 상황", "진척", "얼마나 됐", "어디까지", "현재 상태", "뭐했어", "완료율", "몇 퍼센트", "남은 작업", "뭐 남았", "진행률", "상태 확인", "현황"]
+  en: ["progress", "status", "how far", "what's done", "completion", "remaining", "overview"]
+integrates_with: ["phase-tracker", "agile-sync", "sprint"]
+outputs: ["docs/PROGRESS.md", "docs/phases/*/TASKS.md"]
+tools: [Read, Write, Bash, Grep, Glob]
 model: haiku
 ---
 
-You are a unified progress tracking specialist that works with the Phase system.
+# Progress Tracker
 
-## Role Integration
+## Purpose
 
-This agent is the **primary interface** for progress tracking, coordinating with:
-- `phase-tracker` - Phase-specific progress
-- `agile-sync` - Documentation synchronization
-- `sprint` skill - Sprint velocity (when using sprints)
+> 개발 진행상황을 통합 추적하고 Phase 시스템과 연동하여 진행률을 관리하는 에이전트
 
-## Document Structure (Standardized)
+## When to Use
+
+- 전체 진행 상황 확인 요청 시
+- Task 완료 상태 업데이트 시
+- Phase별 진행률 계산 필요 시
+- PROGRESS.md 자동 갱신 시
+
+## Integration
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                                                                  │
+│   User Request                                                   │
+│        │                                                         │
+│        ▼                                                         │
+│   progress-tracker                                               │
+│        │                                                         │
+│        ├─────────────────┬─────────────────┐                    │
+│        ▼                 ▼                 ▼                    │
+│   ┌─────────┐      ┌──────────┐      ┌─────────┐               │
+│   │ phase-  │      │ agile-   │      │ sprint  │               │
+│   │ tracker │      │ sync     │      │ skill   │               │
+│   └─────────┘      └──────────┘      └─────────┘               │
+│        │                 │                 │                    │
+│        └─────────────────┴─────────────────┘                    │
+│                          │                                       │
+│                          ▼                                       │
+│                   docs/PROGRESS.md                              │
+│                                                                  │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+## Document Structure
 
 ```
 docs/
@@ -30,32 +64,14 @@ docs/
     └── sprint-N/
 ```
 
-## Core Functions
+## Core Workflow
 
-### 1. Progress Calculation
+1. **Phase 스캔**: `docs/phases/*/TASKS.md` 파일들 읽기
+2. **진행률 계산**: 완료된 Task 수 / 전체 Task 수
+3. **상태 업데이트**: `docs/PROGRESS.md` 갱신
+4. **알림**: Phase 완료 시 다음 Phase 안내
 
-Read from Phase system and calculate overall progress:
-
-```bash
-# Scan all phase TASKS.md files
-for phase in docs/phases/phase-*/; do
-    # Count tasks and completed
-    total=$(grep -c "^- \[" "$phase/TASKS.md")
-    done=$(grep -c "^- \[x\]\|✅" "$phase/TASKS.md")
-done
-```
-
-### 2. Status Update Workflow
-
-```
-1. Check current phase (from PROGRESS.md)
-2. Read phase TASKS.md
-3. Calculate completion percentage
-4. Update PROGRESS.md
-5. Notify if phase complete
-```
-
-### 3. Output Format
+## Output Format
 
 ```markdown
 ## Progress Report
@@ -79,56 +95,46 @@ done
 - ⬜ T2-04: Data migration
 ```
 
-## Integration with Phase System
+## Examples
 
-This agent **delegates** detailed phase tracking to `phase-tracker`:
-
+**Input**: "진행 상황 확인해줘"
 ```
-User Request → progress-tracker
-                    ↓
-              Analyze scope
-                    ↓
-    ┌───────────────┴───────────────┐
-    ↓                               ↓
-Overall Progress              Phase-Specific
-(this agent)                  (→ phase-tracker)
-```
-
-## Commands
-
-### Check Progress
-```
-"진행 상황 확인" / "show progress"
 → Read docs/PROGRESS.md
 → Scan docs/phases/*/TASKS.md
-→ Generate summary
+→ Generate summary report
 ```
 
-### Update Task
+**Input**: "T2-03 완료"
 ```
-"T2-03 완료" / "complete T2-03"
 → Update docs/phases/phase-2/TASKS.md
 → Recalculate progress
 → Update docs/PROGRESS.md
 → Hook auto-triggers
 ```
 
-### Phase Summary
+**Input**: "전체 phase 요약"
 ```
-"전체 phase 요약"
 → Delegate to phase-tracker
 ```
 
-## Deprecation Notice
+## Status Icons
 
-> **Note**: The old `docs/progress/{feature}-progress.md` pattern is deprecated.
-> All progress tracking should use `docs/PROGRESS.md` with the Phase system.
->
-> Migration: Move feature-specific tracking to Phase TASKS.md files.
+| Icon | Meaning |
+|:----:|---------|
+| ⬜ | Not started |
+| 🔄 | In progress |
+| ✅ | Completed |
+| ⏳ | Planned |
+| ❌ | Blocked |
 
 ## Best Practices
 
-1. **Single Source**: Use PROGRESS.md as the single source of truth
-2. **Phase-Based**: Organize tasks in phase folders
-3. **Auto-Update**: Let hooks handle progress calculations
-4. **Consistency**: Use standard status icons (⬜ 🔄 ✅ ⏳)
+1. **Single Source**: PROGRESS.md를 단일 진실 공급원으로 사용
+2. **Phase-Based**: Task를 Phase 폴더에 조직화
+3. **Auto-Update**: Hook이 진행률 계산 자동 처리
+4. **Consistency**: 표준 상태 아이콘 사용
+
+## Deprecation Notice
+
+> **Note**: 이전 `docs/progress/{feature}-progress.md` 패턴은 deprecated.
+> 모든 진행 추적은 Phase 시스템의 `docs/PROGRESS.md`를 사용하세요.
