@@ -39,10 +39,17 @@ description: Initialize and analyze a new project. First engages in discovery co
 │                                                                              │
 │  /init --full (RECOMMENDED for new projects)                                 │
 │    │                                                                         │
-│    ├── Step 0: Framework Setup (NEW!)                                       │
+│    ├── Step 0: Framework Setup                                              │
 │    │     ├── Copy cc-initializer's .claude/ to target project               │
 │    │     ├── Includes: agents, skills, commands, hooks, templates           │
-│    │     └── Merge with existing .claude/ if present                        │
+│    │     ├── Merge with existing .claude/ if present                        │
+│    │     └── Detect project repo (git remote) → update settings.json       │
+│    │                                                                         │
+│    ├── Step 0.5: Project Repo Detection (CRITICAL)                          │
+│    │     ├── Run: git remote get-url origin                                 │
+│    │     ├── Parse owner/repo from SSH or HTTPS URL                         │
+│    │     ├── If not found: Ask user for their repo URL                      │
+│    │     └── Update settings.json "project" section                         │
 │    │                                                                         │
 │    ├── Step 1: Project Discovery                                            │
 │    │     ├── Trigger: project-discovery agent                               │
@@ -50,10 +57,10 @@ description: Initialize and analyze a new project. First engages in discovery co
 │    │     ├── Understand goals, requirements, tech stack                     │
 │    │     └── Output: docs/DISCOVERY.md                                      │
 │    │                                                                         │
-│    ├── Step 2: User Confirmation                                            │
-│    │     ├── Present discovery summary                                      │
-│    │     ├── Ask for corrections/additions                                  │
-│    │     └── Proceed only after user approval                               │
+│    ├── Step 2: Document Generation Preview                                  │
+│    │     ├── Show preview of documents to be generated                      │
+│    │     ├── Display: PRD, TECH-SPEC, PROGRESS, CONTEXT                    │
+│    │     └── Ask: Submit / Edit / Cancel                                   │
 │    │                                                                         │
 │    ├── Step 3: Structure Analysis (if existing code)                        │
 │    │     └── Detect tech stack, frameworks, patterns                        │
@@ -466,15 +473,25 @@ Process:
 Output: docs/DISCOVERY.md
 ```
 
-### Step 2: User Confirmation
+### Step 2: Document Generation Preview
 
 ```yaml
-Checkpoint: User must confirm before proceeding
-Actions:
-  - Display discovery summary
-  - Ask: "수정할 내용이 있으신가요?"
-  - If changes requested → update DISCOVERY.md
-  - If confirmed → proceed to generation
+Trigger: After DISCOVERY.md is created
+Purpose: Show user what will be generated, get confirmation
+
+Display:
+  - Project name, type, complexity from DISCOVERY.md
+  - Documents to generate: PRD.md, TECH-SPEC.md, PROGRESS.md, CONTEXT.md
+  - Phase structure (if HIGH complexity)
+
+User Options:
+  - Submit: Proceed with document generation
+  - Edit: Go back to modify DISCOVERY.md, then re-show preview
+  - Cancel: Stop here, DISCOVERY.md saved only
+
+If Submit → Continue to Step 3
+If Edit → Back to Step 1 refinement, then repeat Step 2
+If Cancel → Exit (show: "Run '/init --generate' later")
 ```
 
 ### Step 3: Structure Analysis (if existing code)
@@ -611,17 +628,19 @@ After /init --sync:
     └── --full? (or default for new project)
             │
             ▼
-        Framework Setup (Step 0)
+        Framework Setup + Repo Detection (Step 0)
             │
             ▼
-        project-discovery
+        project-discovery → DISCOVERY.md
             │
             ▼
-        User Confirmation
+        Document Generation Preview (Step 2)
             │
-            ├── Changes? → Update DISCOVERY.md → Loop
+            ├── Submit? → dev-docs-writer → Project Agents → docs/ → END
             │
-            └── Confirmed → dev-docs-writer → Project Agents → docs/ → END
+            ├── Edit? → Update DISCOVERY.md → Loop back to Preview
+            │
+            └── Cancel? → END (DISCOVERY.md saved)
 ```
 
 ## Best Practices

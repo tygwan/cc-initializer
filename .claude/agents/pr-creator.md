@@ -20,6 +20,20 @@ PR 템플릿은 `~/.claude/commands/git-workflow/PR-TEMPLATE.md` 참조.
 
 ## Workflow
 
+### 0. Repository Verification (CRITICAL)
+
+```bash
+# Verify target repo before PR operations
+REMOTE_URL=$(git remote get-url origin 2>/dev/null)
+echo "Target repository: $REMOTE_URL"
+
+# WARNING: If remote points to cc-initializer, STOP!
+if echo "$REMOTE_URL" | grep -q "cc-initializer"; then
+    echo "WARNING: Remote points to cc-initializer framework!"
+    echo "Fix: git remote set-url origin <your-project-repo-url>"
+fi
+```
+
 ### 1. PR 준비 분석
 
 ```bash

@@ -19,6 +19,20 @@ If not authenticated:
 gh auth login --web
 ```
 
+## Repository Verification (CRITICAL)
+
+```bash
+# Verify target repo before any GitHub operation
+gh repo view --json nameWithOwner -q '.nameWithOwner'
+
+# Warn if remote is cc-initializer framework source
+REMOTE_URL=$(git remote get-url origin 2>/dev/null)
+if echo "$REMOTE_URL" | grep -q "cc-initializer"; then
+    echo "WARNING: Remote points to cc-initializer framework!"
+    echo "Fix: git remote set-url origin <your-project-repo-url>"
+fi
+```
+
 ---
 
 ## 1. GitHub Status Dashboard

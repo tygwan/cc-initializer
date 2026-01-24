@@ -7,6 +7,16 @@ description: GitHub CLI 통합 스킬. 이슈, PR, CI/CD, 릴리스, 상태 관�
 
 gh CLI를 활용한 GitHub 통합 관리 스킬입니다.
 
+## Pre-check: Target Repository
+
+All `gh` commands use the current directory's git remote (`origin`).
+Ensure it points to YOUR project repository, not the cc-initializer framework source.
+
+```bash
+# Verify current repo context
+gh repo view --json nameWithOwner -q '.nameWithOwner'
+```
+
 ## Usage
 
 ```bash

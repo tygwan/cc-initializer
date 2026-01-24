@@ -190,14 +190,23 @@
     "auto_run_validation": true,
     "report_changes": true
   },
+  "project": {
+    "_comment": "User's project repo - auto-detected from git remote or manually set",
+    "repo": "",
+    "owner": "",
+    "name": "",
+    "default_branch": "main",
+    "auto_detect": true
+  },
   "update": {
+    "_comment": "cc-initializer framework source - NOT your project repo",
     "enabled": true,
     "source_locations": [
       "~/dev/cc-initializer",
       "~/.cc-initializer"
     ],
     "env_var": "CC_INITIALIZER_PATH",
-    "github_repo": "https://github.com/tygwan/cc-initializer.git",
+    "framework_repo": "https://github.com/tygwan/cc-initializer.git",
     "default_branch": "main",
     "auto_sync_after_update": true,
     "show_changelog": true,
